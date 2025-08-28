@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject _miniCubePrefab;
     [SerializeField]
+    private GameObject _playerCube;
+
+    [SerializeField]
     private GameObject _box;
     [SerializeField]
     private GameObject _plane;
@@ -16,6 +19,7 @@ public class GameManager : MonoBehaviour
     {
         var cube = Instantiate(_miniCubePrefab, _box.transform);
         cube.transform.localPosition = position;
+        cube.GetComponent<Attracted>().SetAttractedTo(_playerCube);
     }
 
     private void FillPlaneWithCubes(Vector3 offset, int width, int height, float spacing)
@@ -33,7 +37,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size;
+        Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
         Vector3 offset = new Vector3(-_planeSize.x / 2, 0, -_planeSize.z / 2);
         FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(_planeSize.x / 2), (int)(_planeSize.z / 2), 2f);
     }

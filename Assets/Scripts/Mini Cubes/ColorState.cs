@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ColorState : MonoBehaviour
 {
-    private Collider _collider;
     private Material _material;
 
     private Color _originalColor;
     [SerializeField]
     private Color _interactedColor = Color.red;
+    private Attracted _attracted;
 
     [SerializeField]
     private float _timeToColorFade = 5f;
@@ -20,8 +20,8 @@ public class ColorState : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _attracted = GetComponent<Attracted>();
         _originalColor = GetComponent<MeshRenderer>().material.color;
-        _collider = GetComponent<Collider>();
         _material = gameObject.GetComponent<MeshRenderer>().material;
     }
 
@@ -32,6 +32,7 @@ public class ColorState : MonoBehaviour
         {
             _timePassed += Time.deltaTime;
             _material.color = Color.Lerp(_material.color, _originalColor, Time.deltaTime / _timeToColorFade);
+            _attracted.PerformAtrraction();
             if (_timePassed >= _timeToColorFade)
             {
                 _colorChanged = false;
@@ -45,7 +46,7 @@ public class ColorState : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<CubeBehaviour>())
         {
-            _material.color = Color.red;
+            _material.color = _interactedColor;
             _colorChanged = true;
         }
     }

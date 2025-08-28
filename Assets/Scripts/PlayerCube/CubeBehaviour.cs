@@ -6,14 +6,9 @@ using UnityEngine.InputSystem;
 public class CubeBehaviour : MonoBehaviour
 {
     private MovementHandler _movement;
-    private Vector3 _direction;
-
     public void Move(InputAction.CallbackContext context)
     {
-        Debug.Log("Move " + context.ReadValue<Vector3>());
-
-        Vector3 input = context.ReadValue<Vector3>();
-        _movement.Move(input.normalized);
+        _movement.Move(context.ReadValue<Vector3>().normalized);
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -27,17 +22,5 @@ public class CubeBehaviour : MonoBehaviour
     private void Start()
     {
         _movement = GetComponent<MovementHandler>();
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-
-    }
-
-    private void FixedUpdate()
-    {
-
-        // _movement.Move()
     }
 }
