@@ -17,12 +17,20 @@ public class ColorState : MonoBehaviour
 
     private float _timePassed = 0f;
 
+    public void StartAttraction()
+    {
+        if (!_material) return;
+
+        _material.color = _interactedColor;
+        _colorChanged = true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         _attracted = GetComponent<Attracted>();
-        _originalColor = GetComponent<MeshRenderer>().material.color;
-        _material = gameObject.GetComponent<MeshRenderer>().material;
+        _material = GetComponent<MeshRenderer>().material;
+        _originalColor = _material.color;
     }
 
     // Update is called once per frame
@@ -32,7 +40,7 @@ public class ColorState : MonoBehaviour
         {
             _timePassed += Time.deltaTime;
             _material.color = Color.Lerp(_material.color, _originalColor, Time.deltaTime / _timeToColorFade);
-            _attracted.PerformAtrraction();
+            _attracted.PerformAtrraction(Time.deltaTime);
             if (_timePassed >= _timeToColorFade)
             {
                 _colorChanged = false;
@@ -41,13 +49,4 @@ public class ColorState : MonoBehaviour
             return;
         }
     }        
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.GetComponent<CubeBehaviour>())
-        {
-            _material.color = _interactedColor;
-            _colorChanged = true;
-        }
-    }
 }

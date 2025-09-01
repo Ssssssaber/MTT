@@ -24,10 +24,10 @@ class Attracted : MonoBehaviour
         _rigid = GetComponent<Rigidbody>();
     }
 
-    public void PerformAtrraction()
+    public void PerformAtrraction(float deltaTime)
     {
         _distanceVector = _attractedTo.transform.position - transform.position;
-        _rigid.AddForce(_strengthOfAttraction * _distanceVector.normalized);
+        _rigid.AddForce(_strengthOfAttraction * _rigid.mass * _distanceVector.normalized * deltaTime);
     }
 }
 
