@@ -491,6 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdf184e352d2f9c479105ba6eb848d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gravity: {x: 0, y: -20, z: 0}
   _miniCubePrefab: {fileID: 4172937227661756505, guid: c0f9e19fc56570c4cbf208d5be83259f, type: 3}
   _playerCube: {fileID: 1938352723}
   _box: {fileID: 758190301}
@@ -517,7 +518,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938717044}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4dd339be962bba4aa82c902f7b3452e, type: 3}
   m_Name: 
@@ -1267,6 +1268,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2280910508372529444, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
   m_PrefabInstance: {fileID: 1471402062377043531}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1938352732 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5395671542781783302, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+  m_PrefabInstance: {fileID: 1471402062377043531}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938352723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f160a063fd6895b4fb28b19aaad6e02f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1471402062377043531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1318,6 +1330,54 @@ PrefabInstance:
     - target: {fileID: 2900694355410988572, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
       propertyPath: m_Name
       value: PlayerCube
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionId
+      value: 8ce058ea-2b94-4f4b-8b86-a93a7e4460f6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionId
+      value: ef674349-5470-48b4-b856-31d00fd453f1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionName
+      value: Default/Jump[/Keyboard/space]
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionName
+      value: Default/Movement[/Keyboard/w,/Keyboard/a,/Keyboard/d]
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1938352732}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CubeBehaviour, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873672737518655347, guid: dca176b7d24d218449c523dc46fc0652, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

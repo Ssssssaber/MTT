@@ -6,6 +6,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
+    private Vector3 _gravity = new Vector3(0.0f, -9.81f, 0.0f);
+    [SerializeField]
     private GameObject _miniCubePrefab;
     [SerializeField]
     private GameObject _playerCube;
@@ -32,6 +34,11 @@ public class GameManager : MonoBehaviour
                 SpawnMiniCube(position);
             }
         }
+    }
+
+    private void Awake()
+    {
+        Physics.gravity = _gravity;
     }
 
     // Start is called before the first frame update
