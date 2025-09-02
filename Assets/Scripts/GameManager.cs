@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MainLogger.Info("Game Started");
+
         Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
         Vector3 offset = new Vector3(-_planeSize.x / 2, 0, -_planeSize.z / 2);
         FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(_planeSize.x / 2), (int)(_planeSize.z / 2), 2f);
