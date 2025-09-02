@@ -13,6 +13,7 @@ public class ColorState : MonoBehaviour
 
     [SerializeField]
     private float _timeToColorFade = 5f;
+    private float _fadeDeltaTimer = 0.1f;
     private bool _colorChanged = false;
 
     private float _timePassed = 0f;
@@ -23,6 +24,7 @@ public class ColorState : MonoBehaviour
 
         _material.color = _interactedColor;
         _colorChanged = true;
+        StartCoroutine(ChangeColorCoroutine());
     }
 
     // Start is called before the first frame update
@@ -33,20 +35,19 @@ public class ColorState : MonoBehaviour
         _originalColor = _material.color;
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator ChangeColorCoroutine()
     {
-        if (_colorChanged)
+        while (_colorChanged)
         {
-            _timePassed += Time.deltaTime;
-            _material.color = Color.Lerp(_material.color, _originalColor, Time.deltaTime / _timeToColorFade);
-            _attracted.PerformAtrraction(Time.deltaTime);
+            _timePassed += _fadeDeltaTimer;
+            _material.color = Color.Lerp(_material.color, _originalColor, _fadeDeltaTimer / _timeToColorFade);
+            _attracted.PerformAtrraction(Time.fixedDeltaTime);
             if (_timePassed >= _timeToColorFade)
             {
                 _colorChanged = false;
                 _timePassed = 0f;
             }
-            return;
+            yield return new WaitForSeconds(_fadeDeltaTimer);
         }
-    }        
+    }
 }
