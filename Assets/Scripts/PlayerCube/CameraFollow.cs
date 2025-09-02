@@ -33,6 +33,6 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        FollowTarget();
+        if (_target) FollowTarget();
     }
 }
