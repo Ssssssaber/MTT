@@ -18,7 +18,7 @@ namespace UnityEngine.Recorder.Examples
     /// This script saves the recording outputs in [Project Folder]/SampleRecordings (except for the recorded animation,
     /// which is saved in Assets/SampleRecordings).
     /// </summary>
-    public class MultipleRecordingsExample : MonoBehaviour
+    public class MultipleRecordings : MonoBehaviour
     {
         RecorderController m_RecorderController;
 
