@@ -38,15 +38,15 @@ namespace UnityEngine.Recorder.Examples
 
             videoRecorder.EncoderSettings = new CoreEncoderSettings
             {
-                EncodingQuality = CoreEncoderSettings.VideoEncodingQuality.Low,
+                EncodingQuality = CoreEncoderSettings.VideoEncodingQuality.High,
                 Codec = CoreEncoderSettings.OutputCodec.MP4
             };
             videoRecorder.CaptureAudio = false;
 
             videoRecorder.ImageInputSettings = new GameViewInputSettings
             {
-                OutputWidth = 1920,
-                OutputHeight = 1080
+                OutputWidth = 1280,
+                OutputHeight = 720
             };
 
             videoRecorder.OutputFile = Path.Combine(mediaOutputFolder, "video_v") + DefaultWildcard.Take;
