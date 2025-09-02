@@ -31,12 +31,14 @@ public class GameManager : MonoBehaviour
         cube.GetComponent<Attracted>().SetAttractedTo(_currentPlayerCube.gameObject);
     }
 
-    private void FillPlaneWithCubes(Vector3 offset, int width, int height, float spacing)
+    private void FillPlaneWithCubes(Vector3 offset, int width, int height, float spacing, uint maxCubes = 100)
     {
-        for (int x = 0; x < width; x++)
+        uint cubeCounter = 0;
+        for (int x = 0; x < width && cubeCounter < maxCubes; x++)
         {
-            for (int z = 0; z < height; z++)
+            for (int z = 0; z < height && cubeCounter < maxCubes; z++)
             {
+                cubeCounter++;
                 Vector3 position = new Vector3(offset.x + x * spacing, offset.y + 0.5f, offset.z + z * spacing);
                 SpawnMiniCube(position);
             }
@@ -54,7 +56,7 @@ public class GameManager : MonoBehaviour
         RestartTheGame(); 
     }
 
-    public void RestartTheGame(uint cubeCount = 100)
+    public void RestartTheGame(uint cubeCount = 1000)
     {
         if (_gameStarted)
         {
@@ -70,7 +72,7 @@ public class GameManager : MonoBehaviour
 
         Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
         Vector3 offset = new Vector3(-_planeSize.x / 2, 0, -_planeSize.z / 2);
-        FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(_planeSize.x / 2), (int)(_planeSize.z / 2), 2f);
+        FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(_planeSize.x / 2), (int)(_planeSize.z / 2), 2f, cubeCount);
 
         _gameStarted = true;
     }
