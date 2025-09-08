@@ -4,7 +4,7 @@
 
  [System.Serializable]
  [ProfilerModuleMetadata("Network")] 
- public class TankEffectsProfilerModule : ProfilerModule
+ public class NetworkProfilerModuele : ProfilerModule
  {
     static readonly ProfilerCounterDescriptor[] k_Counters = new ProfilerCounterDescriptor[]
     {
@@ -21,5 +21,5 @@
 
 
     // Pass the auto-enabled category names to the base constructor.
-    public TankEffectsProfilerModule() : base(k_Counters, autoEnabledCategoryNames: k_AutoEnabledCategoryNames) { }
+    public NetworkProfilerModuele() : base(k_Counters, autoEnabledCategoryNames: k_AutoEnabledCategoryNames) { }
 }

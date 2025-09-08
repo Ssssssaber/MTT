@@ -17,7 +17,7 @@ public class ProfilerUpdate : MonoBehaviour
 
         packets = Random.Range(3.0f, 10.0f);
         GameStatistics.PacketRate.Value = packets;
-        GameStatistics.BandwidthBytesPerSecond.Value = packetSize;
+        GameStatistics.BandwidthBytesPerSecond.Value = packetSize * packets;
 
         passedTime = 0.0f;
     }
