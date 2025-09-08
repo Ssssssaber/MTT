@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
             Destroy(_objectsParent);
         }
 
-        MainLogger.Info("Game Started");
+        MainLogger.instance.Info("Game Started");
 
         _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
 

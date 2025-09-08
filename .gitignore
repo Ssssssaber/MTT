@@ -2,6 +2,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=unity
 /.vscode
 Recordings/
+Packages/
+NuGet/
+UserLogs/
 ### Unity ###
 # This .gitignore file should be placed at the root of your Unity project directory
 #
