@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using DI;
 using UnityEngine;
 
-public class ColorState : MonoBehaviour
+public class ColorState : UpdateableBehaviour
 {
     private Material _material;
 
@@ -24,7 +25,6 @@ public class ColorState : MonoBehaviour
 
         _material.color = _interactedColor;
         _colorChanged = true;
-        StartCoroutine(ChangeColorCoroutine());
     }
 
     // Start is called before the first frame update
@@ -35,19 +35,17 @@ public class ColorState : MonoBehaviour
         _originalColor = _material.color;
     }
 
-    private IEnumerator ChangeColorCoroutine()
+    public override void SimulationUpdate(float deltaTime)
     {
-        while (_colorChanged)
+        if (!_colorChanged) return;
+
+        _timePassed += deltaTime;
+        _material.color = Color.Lerp(_material.color, _originalColor, deltaTime / _timeToColorFade);
+        _attracted.PerformAtrraction(deltaTime);
+        if (_timePassed >= _timeToColorFade)
         {
-            _timePassed += _fadeDeltaTimer;
-            _material.color = Color.Lerp(_material.color, _originalColor, _fadeDeltaTimer / _timeToColorFade);
-            _attracted.PerformAtrraction(Time.fixedDeltaTime);
-            if (_timePassed >= _timeToColorFade)
-            {
-                _colorChanged = false;
-                _timePassed = 0f;
-            }
-            yield return new WaitForSeconds(_fadeDeltaTimer);
+            _colorChanged = false;
+            _timePassed = 0f;
         }
     }
 }

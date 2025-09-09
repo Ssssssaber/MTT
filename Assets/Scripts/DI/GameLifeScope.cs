@@ -10,6 +10,7 @@ namespace DI
         {
             // Register the manager
             builder.RegisterComponentInHierarchy<SimulationManager>();
+            builder.Register<UpdateableBehaviour>(Lifetime.Singleton);
         }
     }
 }

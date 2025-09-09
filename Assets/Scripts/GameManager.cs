@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using DI;
+using VContainer;
+using VContainer.Unity;
 
 public class GameManager : MonoBehaviour
 {
+    [Inject] LifetimeScope _lifetime;
+
     [SerializeField]
     private Vector3 _gravity = new Vector3(0.0f, -9.81f, 0.0f);
     [SerializeField]
@@ -29,6 +34,7 @@ public class GameManager : MonoBehaviour
         var cube = Instantiate(_miniCubePrefab, _objectsParent.transform);
         cube.transform.localPosition = position;
         cube.GetComponent<Attracted>().SetAttractedTo(_currentPlayerCube.gameObject);
+        _lifetime.Container.InjectGameObject(cube);
     }
 
     private void FillPlaneWithCubes(Vector3 offset, int width, int height, float spacing, uint maxCubes = 100)
@@ -68,6 +74,8 @@ public class GameManager : MonoBehaviour
         _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
 
         _currentPlayerCube = Instantiate(_playerCubePrefab, _objectsParent.transform).GetComponent<CubeBehaviour>();
+        _lifetime.Container.InjectGameObject(_currentPlayerCube.gameObject);
+
         _cameraFollow.SetTarget(_currentPlayerCube.transform);
 
         Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;

@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using DI;
 
-public class MovementHandler : MonoBehaviour
+public class MovementHandler : UpdateableBehaviour
 {
     private Rigidbody _rigid;
     [SerializeField]
@@ -31,7 +29,7 @@ public class MovementHandler : MonoBehaviour
         _rigid = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    public override void SimulationUpdate(float deltaTime)
     {
         if (_direction == Vector3.zero) return;
 

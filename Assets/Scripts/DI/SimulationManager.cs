@@ -20,6 +20,11 @@ namespace DI
 
             _updatables.Add(updatable.GetUID(), updatable);
         }
+        
+        public void Unregister(UpdateableBehaviour updatable)
+        {
+            _updatables.Remove(updatable.GetUID());
+        }
 
         private void FixedUpdate()
         {

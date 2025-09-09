@@ -8,13 +8,13 @@ namespace DI
     public class UpdateableBehaviour : MonoBehaviour, IUpdatable
     {
         private SimulationManager _manager;
-        protected ulong UID = UIDGenerator.GetID(); 
+        protected ulong UID = UIDGenerator.GetID();
         public ulong GetUID()
         {
-            return UID; 
+            return UID;
         }
 
-        [Inject]  
+        [Inject]
         public void Construct(SimulationManager manager)
         {
             _manager = manager;
@@ -24,6 +24,11 @@ namespace DI
         public virtual void SimulationUpdate(float deltaTime)
         {
 
+        }
+
+        private void OnDestroy()
+        {
+            _manager.Unregister(this);
         }
     }   
 
