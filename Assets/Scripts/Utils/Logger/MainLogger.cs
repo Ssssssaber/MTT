@@ -14,6 +14,10 @@ public class MainLogger : MonoBehaviour
     {
         _logger.Information(message);
     }
+    public void Error(string message)
+    {
+        _logger.Error(message);
+    }
 
     private void Awake()
     {
