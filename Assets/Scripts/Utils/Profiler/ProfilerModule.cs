@@ -1,11 +1,12 @@
+#if UNITY_EDITOR
 
  using Unity.Profiling;
  using Unity.Profiling.Editor;
 
- [System.Serializable]
- [ProfilerModuleMetadata("Network")] 
- public class NetworkProfilerModuele : ProfilerModule
- {
+[System.Serializable]
+[ProfilerModuleMetadata("Network")] 
+public class NetworkProfilerModuele : ProfilerModule
+{
     static readonly ProfilerCounterDescriptor[] k_Counters = new ProfilerCounterDescriptor[]
     {
         new ProfilerCounterDescriptor(GameStatistics.BandwidthBytesPerSecondName, GameStatistics.NetworkCategory),
@@ -23,3 +24,5 @@
     // Pass the auto-enabled category names to the base constructor.
     public NetworkProfilerModuele() : base(k_Counters, autoEnabledCategoryNames: k_AutoEnabledCategoryNames) { }
 }
+
+#endif

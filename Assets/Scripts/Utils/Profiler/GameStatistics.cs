@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using Unity.Profiling;
 
 public static class GameStatistics
@@ -13,3 +15,5 @@ public static class GameStatistics
         new ProfilerCounterValue<float>(NetworkCategory, PacketRateName, ProfilerMarkerDataUnit.Count
              );
 }
+
+#endif
