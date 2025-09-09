@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using DI;
 using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class CameraFollow : MonoBehaviour
+public class CameraFollow : UpdateableBehaviour
 {
     private Camera _camera;
     [SerializeField]
@@ -31,7 +32,7 @@ public class CameraFollow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    public override void SimulationUpdate(float deltaTime)
     {
         if (_target) FollowTarget();
     }
