@@ -2,7 +2,7 @@ using VContainer;
 using VContainer.Unity;
 using UnityEngine;
 
-namespace DI
+namespace SendState.DI
 {
     public class GameLifetimeScope : LifetimeScope
     {

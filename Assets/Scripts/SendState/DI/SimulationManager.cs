@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using System;
 using Unity.VisualScripting;
 
-namespace DI
+namespace SendState.DI
 {
     public class SimulationManager : MonoBehaviour
     {

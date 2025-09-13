@@ -1,5 +1,5 @@
 
-namespace DI
+namespace SendInput.DI
 {
     public interface IUpdatable
     {

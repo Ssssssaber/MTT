@@ -1,7 +1,7 @@
 using VContainer;
 using VContainer.Unity;
 
-namespace DI
+namespace SendInput.DI
 {
     using UnityEngine;
 

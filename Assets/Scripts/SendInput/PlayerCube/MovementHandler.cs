@@ -1,5 +1,5 @@
 using UnityEngine;
-using DI;
+using SendInput.DI;
 
 namespace SendInput.PlayerCube
 {

@@ -1,4 +1,4 @@
-namespace DI
+namespace SendInput.DI
 {
     public static class UIDGenerator
     {

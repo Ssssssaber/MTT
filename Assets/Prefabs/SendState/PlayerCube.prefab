@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 5970140455040512288}
   - component: {fileID: 4486994693009061799}
   - component: {fileID: 8223476519786786497}
-  - component: {fileID: 4248108875210242933}
-  - component: {fileID: 3838546090076319515}
   - component: {fileID: 4620285085257685803}
+  - component: {fileID: 1324569093820659274}
+  - component: {fileID: -4734983671351109672}
   m_Layer: 0
   m_Name: PlayerCube
   m_TagString: Untagged
@@ -164,24 +164,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4248108875210242933}
-        m_TargetAssemblyTypeName: CubeBehaviour, Assembly-CSharp
-        m_MethodName: Jump
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 8ce058ea-2b94-4f4b-8b86-a93a7e4460f6
-    m_ActionName: Default/Jump[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4248108875210242933}
-        m_TargetAssemblyTypeName: CubeBehaviour, Assembly-CSharp
+      - m_Target: {fileID: -4734983671351109672}
+        m_TargetAssemblyTypeName: SendState.PlayerCube.CubeBehaviour, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 0
         m_Arguments:
@@ -199,31 +183,6 @@ MonoBehaviour:
   m_DefaultActionMap: Default
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &4248108875210242933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146450355213639582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f160a063fd6895b4fb28b19aaad6e02f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3838546090076319515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146450355213639582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb76fbef0004e54098fef00e7445cdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 25
 --- !u!135 &4620285085257685803
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -245,3 +204,28 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.94
   m_Center: {x: 0, y: -0.00000017881393, z: 0}
+--- !u!114 &1324569093820659274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146450355213639582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0640ad5638302e94491776eae48692b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 25
+--- !u!114 &-4734983671351109672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146450355213639582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d98d897431b48d4ea4c38a7638b3957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
