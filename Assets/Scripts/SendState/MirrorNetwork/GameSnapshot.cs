@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SendInput.MirrorNetwork
+namespace SendState.MirrorNetwork
 {
     public struct GameSnapshot
     {

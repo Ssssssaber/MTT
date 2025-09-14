@@ -5,11 +5,13 @@ using VContainer.Unity;
 
 using SendState.PlayerCube;
 using SendState.MiniCubes;
+using Mirror;
 
 namespace SendState
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : NetworkBehaviour
     {
+        public static GameManager instance { get; private set; }
         [Inject] LifetimeScope _lifetime;
 
         [SerializeField]
@@ -20,7 +22,8 @@ namespace SendState
         [SerializeField]
         private GameObject _miniCubePrefab;
         [SerializeField]
-        private GameObject _playerCubePrefab;
+        private GameObject _canvas;
+        
 
         [SerializeField]
         private GameObject _box;
@@ -55,17 +58,37 @@ namespace SendState
 
         private void Awake()
         {
+            if (instance == null) instance = this;
+            else Destroy(this);
+
             Physics.gravity = _gravity;
+            _canvas.SetActive(false);
         }
 
-        // Start is called before the first frame update
-        void Start()
+        public void RegisterPlayerCube(CubeBehaviour cube)
         {
-            RestartTheGame();
+            if (cube == null)
+            {
+                MainLogger.instance.Error("Cube is null");
+                return;
+            }
+
+            if(_objectsParent == null) _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
+
+            cube.transform.parent = _objectsParent.transform;
+
+            _lifetime.Container.InjectGameObject(cube.gameObject);
+            _currentPlayerCube = cube;
+
+            _cameraFollow.SetTarget(_currentPlayerCube.transform);
+
+            _canvas.SetActive(true);
         }
 
         public void RestartTheGame(uint cubeCount = 1000)
         {
+            if (!isServer) return;
+
             if (_gameStarted)
             {
                 Destroy(_objectsParent);
@@ -73,24 +96,11 @@ namespace SendState
 
             MainLogger.instance.Info("Game Started");
 
-            _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
-
-            _currentPlayerCube = Instantiate(_playerCubePrefab, _objectsParent.transform).GetComponent<CubeBehaviour>();
-            _lifetime.Container.InjectGameObject(_currentPlayerCube.gameObject);
-
-            _cameraFollow.SetTarget(_currentPlayerCube.transform);
-
             Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
             Vector3 offset = new Vector3(-_planeSize.x / 2, 0, -_planeSize.z / 2);
             FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(_planeSize.x / 2), (int)(_planeSize.z / 2), 2f, cubeCount);
 
             _gameStarted = true;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
 }
