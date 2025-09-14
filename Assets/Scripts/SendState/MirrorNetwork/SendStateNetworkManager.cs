@@ -153,13 +153,15 @@ namespace SendState.MirrorNetwork
         /// <param name="conn">Connection from client.</param>
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
-            if (numPlayers == 0)
-            {
-                var player = Instantiate(playerPrefab);
-                NetworkServer.AddPlayerForConnection(conn, player);
+            var player = Instantiate(playerPrefab);
+            NetworkServer.AddPlayerForConnection(conn, player);
 
+            if (numPlayers == 1)
+            {
                 if (conn.identity.isServer)
-                    GameManager.instance.RegisterPlayerCube(player.GetComponent<CubeBehaviour>());
+                {
+                    GameManager.instance.CreatePlayerCube();
+                }
             }
             // base.OnServerAddPlayer(conn);
         }

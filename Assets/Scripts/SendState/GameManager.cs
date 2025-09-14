@@ -22,6 +22,8 @@ namespace SendState
         [SerializeField]
         private GameObject _miniCubePrefab;
         [SerializeField]
+        private GameObject _playerCubePrefab;
+        [SerializeField]
         private GameObject _canvas;
         
 
@@ -34,10 +36,12 @@ namespace SendState
         private bool _gameStarted = false;
         private GameObject _objectsParent;
         private CubeBehaviour _currentPlayerCube;
-        private void SpawnMiniCube(Vector3 position)
+        public void SpawnMiniCube(Vector3 position, Quaternion rotation = default)
         {
             var cube = Instantiate(_miniCubePrefab, _objectsParent.transform);
             cube.transform.localPosition = position;
+            cube.transform.localRotation = rotation == default ? Quaternion.identity : rotation;
+
             cube.GetComponent<Attracted>().SetAttractedTo(_currentPlayerCube.gameObject);
             _lifetime.Container.InjectGameObject(cube);
         }
@@ -62,11 +66,21 @@ namespace SendState
             else Destroy(this);
 
             Physics.gravity = _gravity;
-            _canvas.SetActive(false);
+            // _canvas.SetActive(false);
+        }
+
+        public void CreatePlayerCube()
+        {
+            if (!isServer) return;
+
+            var cube = Instantiate(_playerCubePrefab).GetComponent<CubeBehaviour>();
+            RegisterPlayerCube(cube);
         }
 
         public void RegisterPlayerCube(CubeBehaviour cube)
         {
+            if (!isServer) return;
+
             if (cube == null)
             {
                 MainLogger.instance.Error("Cube is null");
@@ -78,11 +92,12 @@ namespace SendState
             cube.transform.parent = _objectsParent.transform;
 
             _lifetime.Container.InjectGameObject(cube.gameObject);
+            _lifetime.Container.InjectGameObject(_cameraFollow.gameObject);
             _currentPlayerCube = cube;
 
             _cameraFollow.SetTarget(_currentPlayerCube.transform);
 
-            _canvas.SetActive(true);
+            // _canvas.SetActive(true);
         }
 
         public void RestartTheGame(uint cubeCount = 1000)
