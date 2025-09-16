@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using SendState.DI;
+using SendState.MirrorNetwork;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -31,6 +32,11 @@ namespace SendState.PlayerCube
             newPosition += _offset;
             _camera.transform.position = Vector3.Lerp(_camera.transform.position, newPosition, 0.05f);
             _camera.transform.LookAt(_target);
+        }
+
+        public override ObjectRepresentation GetRepresentation()
+        {
+            return ObjectRepresentation.Camera;
         }
 
         // Update is called once per frame

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8398696834580407013}
   - component: {fileID: -8532651501087946763}
   - component: {fileID: 4338751897914987631}
+  - component: {fileID: -600859301010277740}
   m_Layer: 0
   m_Name: MiniCube
   m_TagString: Untagged
@@ -163,3 +164,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactedColor: {r: 1, g: 0, b: 0, a: 1}
   _timeToColorFade: 2
+--- !u!114 &-600859301010277740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172937227661756505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d294d8ec2031113438de947d5af6e8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

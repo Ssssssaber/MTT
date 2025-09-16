@@ -17,7 +17,9 @@ namespace SendState
         [SerializeField]
         private Vector3 _gravity = new Vector3(0.0f, -9.81f, 0.0f);
         [SerializeField]
-        private CameraFollow _cameraFollow;
+        private CameraFollow _activeCamera;
+        [SerializeField]
+        private GameObject _cameraPrefab;
 
         [SerializeField]
         private GameObject _miniCubePrefab;
@@ -36,7 +38,7 @@ namespace SendState
         private bool _gameStarted = false;
         private GameObject _objectsParent;
         private CubeBehaviour _currentPlayerCube;
-        public void SpawnMiniCube(Vector3 position, Quaternion rotation = default)
+        public UpdateableBehaviour CreateMiniCube(Vector3 position, Quaternion rotation = default)
         {
             var cube = Instantiate(_miniCubePrefab, _objectsParent.transform);
             cube.transform.localPosition = position;
@@ -44,6 +46,8 @@ namespace SendState
 
             cube.GetComponent<Attracted>().SetAttractedTo(_currentPlayerCube.gameObject);
             _lifetime.Container.InjectGameObject(cube);
+
+            return cube.GetComponent<MiniCube>();
         }
 
         private void FillPlaneWithCubes(Vector3 offset, int width, int height, float spacing, uint maxCubes = 100)
@@ -55,7 +59,7 @@ namespace SendState
                 {
                     cubeCounter++;
                     Vector3 position = new Vector3(offset.x + x * spacing, offset.y + 0.5f, offset.z + z * spacing);
-                    SpawnMiniCube(position);
+                    CreateMiniCube(position);
                 }
             }
         }
@@ -66,44 +70,49 @@ namespace SendState
             else Destroy(this);
 
             Physics.gravity = _gravity;
+            _activeCamera = FindObjectOfType<CameraFollow>();
             // _canvas.SetActive(false);
         }
 
-        public void CreatePlayerCube()
+        public UpdateableBehaviour CreatePlayerCube()
         {
-            if (!isServer) return;
+            if (_currentPlayerCube != null) return null;
 
             var cube = Instantiate(_playerCubePrefab).GetComponent<CubeBehaviour>();
             RegisterPlayerCube(cube);
+            return cube;
+        }
+
+        public UpdateableBehaviour CreateMainCamera()
+        {
+            // if (_activeCamera == null) _activeCamera = Instantiate(_cameraPrefab).GetComponent<CameraFollow>();
+
+            _lifetime.Container.InjectGameObject(_activeCamera.gameObject);
+
+            _activeCamera.SetTarget(_currentPlayerCube.transform);
+            return _activeCamera;
         }
 
         public void RegisterPlayerCube(CubeBehaviour cube)
         {
-            if (!isServer) return;
-
             if (cube == null)
             {
                 MainLogger.instance.Error("Cube is null");
                 return;
             }
 
-            if(_objectsParent == null) _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
+            if (_objectsParent == null) _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
 
             cube.transform.parent = _objectsParent.transform;
 
+
             _lifetime.Container.InjectGameObject(cube.gameObject);
-            _lifetime.Container.InjectGameObject(_cameraFollow.gameObject);
             _currentPlayerCube = cube;
 
-            _cameraFollow.SetTarget(_currentPlayerCube.transform);
-
-            // _canvas.SetActive(true);
         }
 
         public void RestartTheGame(uint cubeCount = 1000)
         {
-            if (!isServer) return;
-
             if (_gameStarted)
             {
                 Destroy(_objectsParent);

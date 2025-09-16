@@ -23,20 +23,30 @@ namespace SendState.DI
         {
             if (isServer) return;
 
+            MainLogger.instance.Info("Registred message handler");
+
             base.OnStartClient();
             NetworkClient.RegisterHandler<GameSnapshotMessage>(OnGameSnapshotReceived);
         }
 
         private void OnGameSnapshotReceived(GameSnapshotMessage msg)
         {
+            // MainLogger.instance.Info($"Received message: {msg.Tick} {msg.IDs.Count}");
             // Apply snapshot to your scene
             for (int i = 0; i < msg.IDs.Count; i++)
             {
+                ObjectRepresentation type = msg.Types[i];
+                if (type == ObjectRepresentation.None)
+                {
+                    MainLogger.instance.Error("Received None type object, skipping");
+                    continue;
+                }
+
                 ulong id = msg.IDs[i];
                 Vector3 pos = msg.Positions[i];
                 Quaternion rot = msg.Rotations[i];
 
-                var obj = _updatables.ContainsKey(id) ? _updatables[id].gameObject : null;
+                UpdateableBehaviour obj = _updatables.ContainsKey(id) ? _updatables[id] : null;
                 if (obj != null)
                 {
                     obj.transform.position = pos;
@@ -44,7 +54,27 @@ namespace SendState.DI
                     return;
                 }
 
-                GameManager.instance.SpawnMiniCube(pos, rot);
+                switch (type)
+                {
+                    case ObjectRepresentation.Camera:
+                    {
+                        obj = GameManager.instance.CreateMainCamera();
+                        // _updatables.Add(id, obj);
+                        break;
+                    }
+                    case ObjectRepresentation.PlayerCube:
+                    {
+                        obj = GameManager.instance.CreatePlayerCube();
+                        // _updatables.Add(id, obj);
+                        break;
+                    }
+                    case ObjectRepresentation.MiniCube:
+                    {
+                        obj = GameManager.instance.CreateMiniCube(pos, rot);
+                        // _updatables.Add(id, obj);
+                        break;
+                    }
+                }
             }
         }
 
@@ -90,13 +120,17 @@ namespace SendState.DI
             _snapshot.Tick++;
 
             _snapshot.IDs.Clear();
+            _snapshot.Types.Clear();
             _snapshot.Positions.Clear();
             _snapshot.Rotations.Clear();
             _snapshot.Colors.Clear();
 
             foreach (var updatable in _updatables.Values)
             {
+                if (updatable.GetRepresentation() == ObjectRepresentation.None) continue;
+
                 _snapshot.IDs.Add(updatable.GetUID());
+                _snapshot.Types.Add(updatable.GetRepresentation());
                 _snapshot.Positions.Add(updatable.transform.position);
                 _snapshot.Rotations.Add(updatable.transform.rotation);
                 var renderer = updatable.GetComponent<Renderer>();
@@ -114,6 +148,7 @@ namespace SendState.DI
             {
                 Tick = _snapshot.Tick,
                 IDs = new List<ulong>(_snapshot.IDs),
+                Types = new List<ObjectRepresentation>(_snapshot.Types),
                 Positions = new List<Vector3>(_snapshot.Positions),
                 Rotations = new List<Quaternion>(_snapshot.Rotations),
                 Colors = new List<Color>(_snapshot.Colors)
@@ -121,6 +156,7 @@ namespace SendState.DI
 
             if (NetworkServer.connections.Count == 0) return;
             NetworkServer.SendToAll(msg);
+            // MainLogger.instance.Info($"Sending state: {_snapshot.Tick}, {_snapshot.IDs.Count}");
         }
     }
 }

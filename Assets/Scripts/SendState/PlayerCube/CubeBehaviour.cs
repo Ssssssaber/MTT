@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using SendState.MiniCubes;
+using SendState.MirrorNetwork;
+using SendState.DI;
 
 namespace SendState.PlayerCube
 {
     [RequireComponent(typeof(MovementHandler))]
-    public class CubeBehaviour : MonoBehaviour
+    public class CubeBehaviour : UpdateableBehaviour
     {
         private MovementHandler _movement;
         public void Move(InputAction.CallbackContext context)
@@ -36,6 +38,11 @@ namespace SendState.PlayerCube
             {
                 _targetedColorState.StartAttraction();
             }
+        }
+
+        public override ObjectRepresentation GetRepresentation()
+        {
+            return ObjectRepresentation.PlayerCube;
         }
     }
 }

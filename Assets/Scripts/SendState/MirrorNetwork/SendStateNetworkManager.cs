@@ -158,11 +158,14 @@ namespace SendState.MirrorNetwork
 
             if (numPlayers == 1)
             {
-                if (conn.identity.isServer)
-                {
+                // if (conn.identity.isServer)
+                // {
                     GameManager.instance.CreatePlayerCube();
-                }
+                    GameManager.instance.CreateMainCamera();
+                // }
             }
+
+            NetworkServer.SetClientReady(conn);
             // base.OnServerAddPlayer(conn);
         }
 
