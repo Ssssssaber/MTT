@@ -1,14 +1,17 @@
 using VContainer;
-using VContainer.Unity;
+using SendState.MiniCubes;
+using SendState.PlayerCube;
 
 namespace SendState.DI
 {
+    using System;
     using SendState.MirrorNetwork;
     using UnityEngine;
 
+    [Serializable]
     public class UpdateableBehaviour : MonoBehaviour, IUpdatable
     {
-        private SimulationManager _manager;
+        protected SimulationManager _manager;
         protected ulong UID = 0;
 
         public virtual ObjectRepresentation GetRepresentation()
@@ -21,11 +24,45 @@ namespace SendState.DI
             return UID;
         }
 
+        public void SetUID(ulong uid)
+        {
+            UID = uid;
+        }
+
         [Inject]
-        public void Construct(SimulationManager manager, ulong uid = 0)
+        public void InjectManager(SimulationManager manager)
         {
             _manager = manager;
-            _manager.Register(this);  // Register on injection
+        }
+
+        public virtual void Register(ulong uid = 0)
+        {
+            if (uid == 0)
+                UID = UIDGenerator.GetID();
+            else
+                UID = uid;
+
+            // Register additional updatables
+            var movement = GetComponent<MovementHandler>();
+            if (movement != null)
+            {
+                movement.SetUID(UIDGenerator.GetID());
+                _manager.Register(movement);
+            }
+
+            var colorState = GetComponent<ColorState>();
+            if (colorState != null)
+            {
+                colorState.SetUID(UIDGenerator.GetID());
+                _manager.Register(colorState);
+            }
+
+            var camera = GetComponent<CameraFollow>();
+            if (colorState != null)
+            {
+                camera.SetUID(UIDGenerator.GetID());
+                _manager.Register(camera);
+            }
         }
 
         public virtual void SimulationUpdate(float deltaTime)

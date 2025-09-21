@@ -11,7 +11,7 @@ namespace SendState.DI
 {
     public class SimulationManager : NetworkBehaviour
     {
-        Dictionary<ulong, UpdateableBehaviour> _updatables = new Dictionary<ulong, UpdateableBehaviour>();
+        [SerializeField] Dictionary<ulong, UpdateableBehaviour> _updatables = new Dictionary<ulong, UpdateableBehaviour>();
         GameSnapshot _snapshot;
 
         private void Awake()
@@ -58,20 +58,17 @@ namespace SendState.DI
                 {
                     case ObjectRepresentation.Camera:
                     {
-                        obj = GameManager.instance.CreateMainCamera();
-                        // _updatables.Add(id, obj);
+                        GameManager.instance.CreateMainCamera(id);
                         break;
                     }
                     case ObjectRepresentation.PlayerCube:
                     {
-                        obj = GameManager.instance.CreatePlayerCube();
-                        // _updatables.Add(id, obj);
+                        GameManager.instance.CreatePlayerCube(id);
                         break;
                     }
                     case ObjectRepresentation.MiniCube:
                     {
-                        obj = GameManager.instance.CreateMiniCube(pos, rot);
-                        // _updatables.Add(id, obj);
+                        GameManager.instance.CreateMiniCube(pos, rot, id);
                         break;
                     }
                 }
@@ -80,8 +77,6 @@ namespace SendState.DI
 
         public void Register(UpdateableBehaviour updatable)
         {
-            if (!isServer) return;
-
             if (_updatables.ContainsKey(updatable.GetUID()))
             {
                 MainLogger.instance.Error("Updatable already registered: " + updatable);
@@ -93,8 +88,6 @@ namespace SendState.DI
 
         public void Unregister(UpdateableBehaviour updatable)
         {
-            if (!isServer) return;
-
             _updatables.Remove(updatable.GetUID());
         }
 

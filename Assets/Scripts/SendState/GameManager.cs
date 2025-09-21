@@ -12,6 +12,7 @@ namespace SendState
     public class GameManager : NetworkBehaviour
     {
         public static GameManager instance { get; private set; }
+        UpdateableFactory _factory;
         [Inject] LifetimeScope _lifetime;
 
         [SerializeField]
@@ -38,18 +39,26 @@ namespace SendState
         private bool _gameStarted = false;
         private GameObject _objectsParent;
         private CubeBehaviour _currentPlayerCube;
-        public UpdateableBehaviour CreateMiniCube(Vector3 position, Quaternion rotation = default)
+        private void Awake()
         {
-            var cube = Instantiate(_miniCubePrefab, _objectsParent.transform);
+            if (instance == null) instance = this;
+            else Destroy(this);
+
+            Physics.gravity = _gravity;
+            _activeCamera = FindObjectOfType<CameraFollow>();
+            if (_objectsParent == null) _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
+            _factory = new UpdateableFactory(_lifetime);
+            // _canvas.SetActive(false);
+        }
+        public UpdateableBehaviour CreateMiniCube(Vector3 position, Quaternion rotation = default, ulong withUID = 0)
+        {
+            var cube = _factory.Create<MiniCube>(_miniCubePrefab, _objectsParent.transform, withUID);
             cube.transform.localPosition = position;
             cube.transform.localRotation = rotation == default ? Quaternion.identity : rotation;
-
             cube.GetComponent<Attracted>().SetAttractedTo(_currentPlayerCube.gameObject);
-            _lifetime.Container.InjectGameObject(cube);
 
             return cube.GetComponent<MiniCube>();
         }
-
         private void FillPlaneWithCubes(Vector3 offset, int width, int height, float spacing, uint maxCubes = 100)
         {
             uint cubeCounter = 0;
@@ -63,54 +72,23 @@ namespace SendState
                 }
             }
         }
-
-        private void Awake()
-        {
-            if (instance == null) instance = this;
-            else Destroy(this);
-
-            Physics.gravity = _gravity;
-            _activeCamera = FindObjectOfType<CameraFollow>();
-            // _canvas.SetActive(false);
-        }
-
-        public UpdateableBehaviour CreatePlayerCube()
+        public UpdateableBehaviour CreatePlayerCube(ulong withUID = 0)
         {
             if (_currentPlayerCube != null) return null;
 
-            var cube = Instantiate(_playerCubePrefab).GetComponent<CubeBehaviour>();
-            RegisterPlayerCube(cube);
+            CubeBehaviour cube = _factory.Create<CubeBehaviour>(_playerCubePrefab, _objectsParent.transform, withUID);
+
+            cube.transform.parent = _objectsParent.transform;
+            _currentPlayerCube = cube;
             return cube;
         }
-
-        public UpdateableBehaviour CreateMainCamera()
+        public UpdateableBehaviour CreateMainCamera(ulong withUID = 0)
         {
-            // if (_activeCamera == null) _activeCamera = Instantiate(_cameraPrefab).GetComponent<CameraFollow>();
-
-            _lifetime.Container.InjectGameObject(_activeCamera.gameObject);
+            _factory.RegisterAlreadyCreated(_activeCamera, withUID);
 
             _activeCamera.SetTarget(_currentPlayerCube.transform);
             return _activeCamera;
         }
-
-        public void RegisterPlayerCube(CubeBehaviour cube)
-        {
-            if (cube == null)
-            {
-                MainLogger.instance.Error("Cube is null");
-                return;
-            }
-
-            if (_objectsParent == null) _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
-
-            cube.transform.parent = _objectsParent.transform;
-
-
-            _lifetime.Container.InjectGameObject(cube.gameObject);
-            _currentPlayerCube = cube;
-
-        }
-
         public void RestartTheGame(uint cubeCount = 1000)
         {
             if (_gameStarted)
