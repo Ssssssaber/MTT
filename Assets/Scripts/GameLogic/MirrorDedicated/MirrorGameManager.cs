@@ -22,6 +22,7 @@ public class MirrorGameManager : NetworkBehaviour
     private GameObject _plane;
 
     private bool _gameStarted = false;
+    [SerializeField] private GameObject _objectsParentPrefab;
     private GameObject _objectsParent;
     private MirrorCubeBehaviour _currentPlayerCube;
 
@@ -45,6 +46,14 @@ public class MirrorGameManager : NetworkBehaviour
         var cube = Instantiate(_miniCubePrefab, _objectsParent.transform);
         cube.transform.localPosition = position;
         NetworkServer.Spawn(cube);  // Spawn on network
+
+        RpcSetToObjectsParent(cube);
+    }
+
+    [ClientRpc]
+    public void RpcSetToObjectsParent(GameObject gameObject)
+    {
+        gameObject.transform.SetParent(_objectsParent.transform);
     }
 
     [Server]
@@ -70,6 +79,12 @@ public class MirrorGameManager : NetworkBehaviour
     }
 
     [ClientRpc]
+    public void RpcPrepeareObjectsParent()
+    {
+        _objectsParent = Instantiate(_objectsParentPrefab, _box.transform);
+    }
+
+    [ClientRpc]
     public void RpcRestartTheGame()
     {
         RestartTheGame(CubeCount);
@@ -80,6 +95,7 @@ public class MirrorGameManager : NetworkBehaviour
     [Server]
     public void RestartTheGame(uint cubeCount = 1000)
     {
+        RpcPrepeareObjectsParent();
         if (_gameStarted)
         {
             // Destroy networked objects properly
@@ -92,7 +108,7 @@ public class MirrorGameManager : NetworkBehaviour
 
         MainLogger.instance.Info("Game Started");
 
-        _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
+        _objectsParent = Instantiate(_objectsParentPrefab, _box.transform);
 
         Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
         Vector3 offset = new Vector3(-_planeSize.x / 2, 0, -_planeSize.z / 2);
