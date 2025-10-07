@@ -72,24 +72,11 @@ public class MirrorGameManager : NetworkBehaviour
     }
 
     public uint CubeCount = 1000;
-    [Command]
-    public void CmdRestartTheGame()
-    {
-        RestartTheGame(CubeCount);
-    }
-
+ 
     [ClientRpc]
     public void RpcPrepeareObjectsParent()
     {
         _objectsParent = Instantiate(_objectsParentPrefab, _box.transform);
-    }
-
-    [ClientRpc]
-    public void RpcRestartTheGame()
-    {
-        RestartTheGame(CubeCount);
-        var player = NetworkClient.localPlayer.gameObject;
-        RpcSetCurrentPlayerCube(player.GetComponent<MirrorCubeBehaviour>());
     }
 
     [Server]
@@ -117,8 +104,8 @@ public class MirrorGameManager : NetworkBehaviour
         _gameStarted = true;
     }
 
-    [ClientRpc]
-    public void RpcSetCurrentPlayerCube(MirrorCubeBehaviour cube)
+    [TargetRpc]
+    public void TargetRpcSetCurrentPlayerCube(NetworkConnection target, MirrorCubeBehaviour cube)
     {
         _currentPlayerCube = cube;
         SetCameraTarget(cube.transform);

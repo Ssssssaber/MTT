@@ -15,6 +15,6 @@ public class MirrorNetworkManager : NetworkManager
         player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
         NetworkServer.AddPlayerForConnection(conn, player);
 
-        MirrorGameManager.instance.RpcSetCurrentPlayerCube(player.gameObject.GetComponent<MirrorCubeBehaviour>());
+        MirrorGameManager.instance.TargetRpcSetCurrentPlayerCube(conn, player.gameObject.GetComponent<MirrorCubeBehaviour>());
     }
 }
