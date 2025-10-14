@@ -13,10 +13,11 @@ GameObject:
   - component: {fileID: 7170974936959547784}
   - component: {fileID: 6204217623745871546}
   - component: {fileID: 8398696834580407013}
-  - component: {fileID: 5704249361171990958}
   - component: {fileID: 7624891043209448914}
   - component: {fileID: 7106729078222627634}
   - component: {fileID: 8045282685223138754}
+  - component: {fileID: -4445361738106477633}
+  - component: {fileID: -5277864162084082397}
   m_Layer: 0
   m_Name: FishNetMiniCube
   m_TagString: Untagged
@@ -137,52 +138,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5704249361171990958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4172937227661756505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 7624891043209448914}
-  _networkObjectCache: {fileID: 7624891043209448914}
-  _componentConfiguration: 0
-  _synchronizeParent: 0
-  _packing:
-    Position: 1
-    Rotation: 1
-    Scale: 0
-  _useScaledTime: 1
-  _interpolation: 2
-  _extrapolation: 2
-  _enableTeleport: 0
-  _teleportThreshold: 1
-  _clientAuthoritative: 0
-  _sendToOwner: 1
-  _interval: 1
-  _synchronizePosition: 1
-  _positionSensitivity: 0.001
-  _positionSnapping:
-    X: 0
-    Y: 0
-    Z: 0
-  _synchronizeRotation: 1
-  _rotationSnapping:
-    X: 0
-    Y: 0
-    Z: 0
-  _synchronizeScale: 1
-  _scaleSensitivity: 0.001
-  _scaleSnapping:
-    X: 0
-    Y: 0
-    Z: 0
 --- !u!114 &7624891043209448914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,9 +157,10 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 5704249361171990958}
   - {fileID: 7106729078222627634}
   - {fileID: 8045282685223138754}
+  - {fileID: -4445361738106477633}
+  - {fileID: -5277864162084082397}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -250,9 +206,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f7392da6adde54c84342e37b014424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7624891043209448914}
   _networkObjectCache: {fileID: 7624891043209448914}
+  _clientPhysics: 0
   _strengthOfAttraction: 10000
 --- !u!114 &8045282685223138754
 MonoBehaviour:
@@ -266,8 +223,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6b5f243e45087409cedf2ae36eacbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 2
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 7624891043209448914}
   _networkObjectCache: {fileID: 7624891043209448914}
   _interactedColor: {r: 1, g: 0, b: 0, a: 1}
   _timeToColorFade: 5
+--- !u!114 &-4445361738106477633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172937227661756505}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3623239d103ca4d866d9c1b266afa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 7624891043209448914}
+  _networkObjectCache: {fileID: 7624891043209448914}
+  lerpSpeed: 10
+--- !u!114 &-5277864162084082397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172937227661756505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 3
+  _addedNetworkObject: {fileID: 7624891043209448914}
+  _networkObjectCache: {fileID: 7624891043209448914}
+  _componentConfiguration: 0
+  _synchronizeParent: 0
+  _packing:
+    Position: 1
+    Rotation: 1
+    Scale: 0
+  _useScaledTime: 1
+  _interpolation: 2
+  _extrapolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  _clientAuthoritative: 0
+  _sendToOwner: 1
+  _interval: 1
+  _synchronizePosition: 1
+  _positionSensitivity: 0.001
+  _positionSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeRotation: 1
+  _rotationSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeScale: 1
+  _scaleSensitivity: 0.001
+  _scaleSnapping:
+    X: 0
+    Y: 0
+    Z: 0

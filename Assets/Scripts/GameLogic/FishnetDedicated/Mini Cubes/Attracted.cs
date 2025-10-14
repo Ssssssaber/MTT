@@ -5,6 +5,8 @@ using FishNet.Object.Synchronizing;
 [RequireComponent(typeof(Rigidbody))]
 class Attracted : NetworkBehaviour
 {
+    [SerializeField] bool _clientPhysics = true;
+
     private readonly SyncVar<GameObject> _attractedTo = new SyncVar<GameObject>();
 
     public float _strengthOfAttraction = 5.0f;
@@ -23,6 +25,18 @@ class Attracted : NetworkBehaviour
     private void Start()
     {
         _rigid = GetComponent<Rigidbody>();
+        if (!_clientPhysics) DisableClientPhysics();
+    }
+    private void DisableClientPhysics()
+    {
+        _rigid = GetComponent<Rigidbody>();
+        if (IsClientOnlyInitialized)
+        {
+            _rigid.isKinematic = true;
+            var collider = GetComponent<BoxCollider>();
+            collider.enabled = false; 
+        }
+
     }
 
     [Server]

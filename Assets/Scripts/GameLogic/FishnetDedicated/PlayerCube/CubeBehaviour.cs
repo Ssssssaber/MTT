@@ -31,6 +31,19 @@ public class CubeBehaviour : NetworkBehaviour
     private void Start()
     {
         _movement = GetComponent<MovementHandler>();
+        SetAsCurrent();
+    }
+    private void SetAsCurrent()
+    {
+        if (!IsOwner) return;
+
+         GameManager.Instance.SetCurrentPlayerCube(this);
+    }
+
+    [ServerRpc]
+    public void ServerRpcAskForRestartGame()
+    {
+        GameManager.Instance.RestartTheGame();
     }
 
     private void OnTriggerEnter(Collider other)

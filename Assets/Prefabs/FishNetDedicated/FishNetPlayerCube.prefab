@@ -15,10 +15,11 @@ GameObject:
   - component: {fileID: 4486994693009061799}
   - component: {fileID: 8223476519786786497}
   - component: {fileID: 4620285085257685803}
-  - component: {fileID: 7212861763674965296}
   - component: {fileID: 7461347032294050929}
   - component: {fileID: 2539461050417857677}
   - component: {fileID: 2563627028481726960}
+  - component: {fileID: -6717912766527568326}
+  - component: {fileID: -8385424333254966140}
   m_Layer: 0
   m_Name: FishNetPlayerCube
   m_TagString: Untagged
@@ -206,52 +207,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.94
   m_Center: {x: 0, y: -0.00000017881393, z: 0}
---- !u!114 &7212861763674965296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146450355213639582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 7461347032294050929}
-  _networkObjectCache: {fileID: 7461347032294050929}
-  _componentConfiguration: 0
-  _synchronizeParent: 0
-  _packing:
-    Position: 1
-    Rotation: 1
-    Scale: 0
-  _useScaledTime: 1
-  _interpolation: 2
-  _extrapolation: 2
-  _enableTeleport: 0
-  _teleportThreshold: 1
-  _clientAuthoritative: 0
-  _sendToOwner: 1
-  _interval: 1
-  _synchronizePosition: 1
-  _positionSensitivity: 0.001
-  _positionSnapping:
-    X: 0
-    Y: 0
-    Z: 0
-  _synchronizeRotation: 1
-  _rotationSnapping:
-    X: 0
-    Y: 0
-    Z: 0
-  _synchronizeScale: 1
-  _scaleSensitivity: 0.001
-  _scaleSnapping:
-    X: 0
-    Y: 0
-    Z: 0
 --- !u!114 &7461347032294050929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,9 +226,10 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 7212861763674965296}
   - {fileID: 2539461050417857677}
   - {fileID: 2563627028481726960}
+  - {fileID: -6717912766527568326}
+  - {fileID: -8385424333254966140}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -319,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e8972a46f0b4c649bc8579ad4d97f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7461347032294050929}
   _networkObjectCache: {fileID: 7461347032294050929}
 --- !u!114 &2563627028481726960
@@ -334,7 +290,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab408ee2aebe80346a1715a62888465d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 7461347032294050929}
+  _networkObjectCache: {fileID: 7461347032294050929}
+  _clientPhysics: 0
+  _speed: 50
+--- !u!114 &-6717912766527568326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146450355213639582}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3623239d103ca4d866d9c1b266afa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 7461347032294050929}
   _networkObjectCache: {fileID: 7461347032294050929}
-  _speed: 50
+  lerpSpeed: 10
+--- !u!114 &-8385424333254966140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146450355213639582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 3
+  _addedNetworkObject: {fileID: 7461347032294050929}
+  _networkObjectCache: {fileID: 7461347032294050929}
+  _componentConfiguration: 0
+  _synchronizeParent: 0
+  _packing:
+    Position: 1
+    Rotation: 1
+    Scale: 0
+  _useScaledTime: 1
+  _interpolation: 2
+  _extrapolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  _clientAuthoritative: 0
+  _sendToOwner: 1
+  _interval: 1
+  _synchronizePosition: 1
+  _positionSensitivity: 0.001
+  _positionSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeRotation: 1
+  _rotationSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeScale: 1
+  _scaleSensitivity: 0.001
+  _scaleSnapping:
+    X: 0
+    Y: 0
+    Z: 0

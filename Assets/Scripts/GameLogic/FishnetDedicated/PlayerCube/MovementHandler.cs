@@ -3,6 +3,7 @@ using FishNet.Object;
 
 public class MovementHandler : NetworkBehaviour
 {
+    [SerializeField] bool _clientPhysics = true;
     private Rigidbody _rigid;
     public float _speed;
     private Vector3 _direction;
@@ -29,6 +30,18 @@ public class MovementHandler : NetworkBehaviour
     private void Start()
     {
         _rigid = GetComponent<Rigidbody>();
+        if (!_clientPhysics) DisableClientPhysics();
+    }
+
+    private void DisableClientPhysics()
+    {
+        if (IsClientOnlyInitialized)
+        {
+            _rigid.isKinematic = true;
+            var collider = GetComponent<BoxCollider>();
+            collider.enabled = false; 
+        }
+
     }
 
     private void Update()

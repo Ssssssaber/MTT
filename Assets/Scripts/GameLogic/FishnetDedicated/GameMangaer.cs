@@ -2,6 +2,7 @@ using UnityEngine;
 using FishNet.Object;
 using FishNet.Connection;
 using FishNet.Component.Spawning;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class GameManager : NetworkBehaviour
 {
@@ -20,14 +21,14 @@ public class GameManager : NetworkBehaviour
 
     private bool _gameStarted = false;
     private GameObject _objectsParent;
-    private CubeBehaviour _currentPlayerCube;
+    public CubeBehaviour CurrentPlayerCube { get; private set; }
+    public uint CubeCount = 1000;
 
     [Server]
     private void SpawnMiniCube(Vector3 position)
     {
         var cube = Instantiate(_miniCubePrefab, _objectsParent.transform);
         cube.transform.localPosition = position;
-        cube.GetComponent<Attracted>().SetAttractedTo(_currentPlayerCube.gameObject);
         Spawn(cube);
         RpcSetToParent(cube);
     }
@@ -56,12 +57,12 @@ public class GameManager : NetworkBehaviour
     [ObserversRpc]
     private void RpcPrepeareobjectsParent()
     {
-        _objectsParent = Instantiate(_objectsParent, _box.transform);
+        _objectsParent = Instantiate(new GameObject(), _box.transform);
     }
 
    public void SetCurrentPlayerCube(CubeBehaviour cube)
     {
-        _currentPlayerCube = cube;
+        CurrentPlayerCube = cube;
         if (_cameraFollow != null)
         {
             _cameraFollow.SetTarget(cube.transform);
@@ -79,29 +80,55 @@ public class GameManager : NetworkBehaviour
 
     private void Start()
     {
-        if (_playerSpawner == null)
-        {
-            Debug.LogError("Player spawner refernence is missing");
-            return;
-        }
-        _playerSpawner.OnSpawned += OnPlayerSpawned;
+        //if (_playerSpawner == null)
+        //{
+        //    Debug.LogError("Player spawner refernence is missing");
+        //    return;
+        //}
+        //_playerSpawner.OnSpawned += OnPlayerSpawned;
     }
 
-    private void OnPlayerSpawned(NetworkObject nob)
-    {
-        CubeBehaviour cube = nob.GetComponent<CubeBehaviour>();
-        if (cube != null)
-        {
-            cube.TargetRpcSetAsCurrentPlayer(nob.LocalConnection);
-        }
-        else
-        {
-            Debug.LogWarning("Spawned player prefab missing CubeBehaviour!");
-        }
-    }
+    //[Server]
+    //private void OnPlayerSpawned(NetworkObject nob)
+    //{
+    //    if (!IsServerInitialized) return;
+
+    //    Debug.Log($"OnPlayerSpawned: OwnerId = {nob.OwnerId}, LocalConnection Id = {nob.LocalConnection?.ClientId ?? -999}, IsOwnerSet = {nob.LocalConnection != null && nob.LocalConnection.IsValid}");
+    //    if (nob.TryGetComponent<CubeBehaviour>(out var cube))
+    //    {
+    //        // Start a coroutine to delay the TargetRpc until observers are set
+    //        StartCoroutine(DelayedTargetRpc(cube, nob.LocalConnection));
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("Spawned player prefab missing CubeBehaviour!");
+    //    }
+    //}
+
+    //[Server]
+    //private System.Collections.IEnumerator DelayedTargetRpc(CubeBehaviour cube, NetworkConnection targetConn)
+    //{
+    //    Debug.Log($"DelayedTargetRpc Start: targetConn = {targetConn}, IsValid = {targetConn?.IsValid ?? false}");
+
+    //    // Wait one frame for replication and observer setup
+    //    yield return null;
+
+    //    Debug.Log($"DelayedTargetRpc After Yield: targetConn = {targetConn}, IsValid = {targetConn?.IsValid ?? false}");
+
+    //    // Validate the connection before calling TargetRpc
+    //    if (targetConn != null && targetConn.IsValid)
+    //    {
+    //        cube.TargetRpcSetAsCurrentPlayer(targetConn);
+    //        Debug.Log("TargetRpc called successfully.");
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning($"Invalid connection for TargetRpc on player cube. targetConn: {targetConn}");
+    //    }
+    //}
 
     [Server]
-    public void RestartTheGame(uint cubeCount = 1000)
+    public void RestartTheGame()
     {
         RpcPrepeareobjectsParent();
 
@@ -116,7 +143,7 @@ public class GameManager : NetworkBehaviour
 
         Vector3 planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
         Vector3 offset = new Vector3(-planeSize.x / 2, 0, -planeSize.z / 2);
-        FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(planeSize.x / 2), (int)(planeSize.z / 2), 2f, cubeCount);
+        FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(planeSize.x / 2), (int)(planeSize.z / 2), 2f, CubeCount);
 
         _gameStarted = true;
     }

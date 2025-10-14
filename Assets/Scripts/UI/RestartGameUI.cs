@@ -1,14 +1,23 @@
+using FishNet;
 using UnityEngine;
 
 public class RestartGameUI : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;
     [SerializeField] private TMPro.TMP_InputField _inputField;
     public void OnRestartButtonClicked()
     {
+        if (!InstanceFinder.IsClientStarted) return;
+
+        var gameManager = GameManager.Instance;
+        if (gameManager == null) return;
+
+        var player = gameManager.CurrentPlayerCube;
+        if (player == null) return;
+
         if (uint.TryParse(_inputField.text, out uint cubeCount))
         {
-            _gameManager.RestartTheGame(cubeCount);
+            gameManager.CubeCount = cubeCount;
+            player.ServerRpcAskForRestartGame();
         }
     }
 }
