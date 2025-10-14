@@ -4,6 +4,7 @@ using Mirror;
 [RequireComponent(typeof(Rigidbody))]
 public class MirrorAttracted : NetworkBehaviour
 {
+    [SerializeField] private bool _clientPhysics = false;
     [SyncVar] public GameObject _attractedTo;  // Sync the target object
 
     public float _strengthOfAttraction = 5.0f;
@@ -15,6 +16,17 @@ public class MirrorAttracted : NetworkBehaviour
     private void Start()
     {
         _rigid = GetComponent<Rigidbody>();
+        if (!_clientPhysics) DisableClientPhysics();
+    }
+    private void DisableClientPhysics()
+    {
+        if (isClientOnly)
+        {
+            _rigid.isKinematic = true;
+            var collider = GetComponent<BoxCollider>();
+            collider.enabled = false; 
+        }
+
     }
 
     public void SetAttractedTo(GameObject newAttractedTo)

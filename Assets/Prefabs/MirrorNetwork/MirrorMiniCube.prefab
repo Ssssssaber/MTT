@@ -191,6 +191,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _clientPhysics: 0
   _attractedTo: {fileID: 0}
   _strengthOfAttraction: 10000
 --- !u!114 &7075590676837505466

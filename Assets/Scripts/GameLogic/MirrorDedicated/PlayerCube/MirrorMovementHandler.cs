@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MirrorMovementHandler : NetworkBehaviour
 {
+    [SerializeField] private bool _clientPhysics = false;
     public float _speed = 10f;
     private Rigidbody _rigid;
     private Vector3 _direction;
@@ -14,11 +15,18 @@ public class MirrorMovementHandler : NetworkBehaviour
     private void Start()
     {
         _rigid = GetComponent<Rigidbody>();
-        // if (isServer)
-        // {
-        //     _syncPosition = transform.position;
-        //     _syncVelocity = _rigid.velocity;
-        // }
+        if (!_clientPhysics) DisableClientPhysics();
+    }
+
+    private void DisableClientPhysics()
+    {
+        if (isClientOnly)
+        {
+            _rigid.isKinematic = true;
+            var collider = GetComponent<BoxCollider>();
+            collider.enabled = false; 
+        }
+
     }
 
     public void SetDirection(Vector3 direction)

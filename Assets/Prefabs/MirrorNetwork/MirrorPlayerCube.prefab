@@ -241,6 +241,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _clientPhysics: 0
   _speed: 50
 --- !u!114 &-8987053293156021568
 MonoBehaviour:
