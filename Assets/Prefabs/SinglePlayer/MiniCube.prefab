@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7170974936959547784}
   - component: {fileID: 6204217623745871546}
   - component: {fileID: 8398696834580407013}
-  - component: {fileID: 7133713177801339402}
-  - component: {fileID: -3877024418414124418}
+  - component: {fileID: 4090187244873294351}
+  - component: {fileID: 3259834045701265760}
   m_Layer: 0
   m_Name: MiniCube
   m_TagString: Untagged
@@ -135,7 +135,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7133713177801339402
+--- !u!114 &4090187244873294351
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,22 +144,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 4172937227661756505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21077997c6642c14c98c84091ff28c56, type: 3}
+  m_Script: {fileID: 11500000, guid: 76f89a94801a15d4dad6da01ba8322c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactedColor: {r: 1, g: 0, b: 0, a: 1}
+  _timeToColorFade: 5
+--- !u!114 &3259834045701265760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172937227661756505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086337de799226a4dbe442c6af9be641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _attractedTo: {fileID: 0}
   _strengthOfAttraction: 10000
---- !u!114 &-3877024418414124418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4172937227661756505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0d425b868ac36d49b92e25dc724dd86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactedColor: {r: 1, g: 0, b: 0, a: 1}
-  _timeToColorFade: 2
