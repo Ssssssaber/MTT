@@ -1,17 +1,17 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
+    public static GameManager instance { get; private set; }
     public Vector3 _gravity = new Vector3(0.0f, -9.81f, 0.0f);
     public CameraFollow _cameraFollow;
 
     [SerializeField]
     private GameObject _miniCubePrefab;
-    [SerializeField]
-    private GameObject _playerCubePrefab;
 
     [SerializeField]
     private GameObject _box;
@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
     {
         var cube = Instantiate(_miniCubePrefab, _objectsParent.transform);
         cube.transform.localPosition = position;
-        cube.GetComponent<Attracted>().SetAttractedTo(_currentPlayerCube.gameObject);
     }
 
     private void FillPlaneWithCubes(Vector3 offset, int width, int height, float spacing, uint maxCubes = 100)
@@ -46,12 +45,21 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Physics.gravity = _gravity;
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         RestartTheGame(); 
+    }
+
+    public void SetCurrentPlayer(CubeBehaviour cube)
+    {
+        _currentPlayerCube = cube;
+        _cameraFollow.SetTarget(_currentPlayerCube.transform);
     }
 
     public void RestartTheGame(uint cubeCount = 1000)
@@ -65,20 +73,10 @@ public class GameManager : MonoBehaviour
 
         _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
 
-        _currentPlayerCube = Instantiate(_playerCubePrefab, _objectsParent.transform).GetComponent<CubeBehaviour>();
-
-        _cameraFollow.SetTarget(_currentPlayerCube.transform);
-
         Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
         Vector3 offset = new Vector3(-_planeSize.x / 2, 0, -_planeSize.z / 2);
         FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(_planeSize.x / 2), (int)(_planeSize.z / 2), 2f, cubeCount);
 
         _gameStarted = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

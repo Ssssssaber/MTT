@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using DI;
 using UnityEngine;
+using Fusion;
 
-public class ColorState : MonoBehaviour
+public class ColorState : NetworkBehaviour
 {
     private Material _material;
 
@@ -13,11 +11,16 @@ public class ColorState : MonoBehaviour
 
     [SerializeField]
     private float _timeToColorFade = 5f;
-    private float _fadeDeltaTimer = 0.1f;
     private bool _colorChanged = false;
 
     private float _timePassed = 0f;
 
+    void Awake()
+    {
+        _attracted = GetComponent<Attracted>();
+        _material = GetComponent<MeshRenderer>().material;
+        _originalColor = _material.color;
+    }
     public void StartAttraction()
     {
         if (!_material) return;
@@ -26,17 +29,9 @@ public class ColorState : MonoBehaviour
         _colorChanged = true;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public override void FixedUpdateNetwork()
     {
-        _attracted = GetComponent<Attracted>();
-        _material = GetComponent<MeshRenderer>().material;
-        _originalColor = _material.color;
-    }
-
-    private void Update()
-    {
-        SimulationUpdate(Time.deltaTime);
+        SimulationUpdate(Runner.DeltaTime);
     }
 
     private void SimulationUpdate(float deltaTime)
@@ -50,6 +45,7 @@ public class ColorState : MonoBehaviour
         {
             _colorChanged = false;
             _timePassed = 0f;
+            _material.color = _originalColor;
         }
     }
 }

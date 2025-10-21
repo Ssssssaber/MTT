@@ -1,35 +1,29 @@
+﻿using Fusion;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class CubeBehaviour : MonoBehaviour
+public class CubeBehaviour : NetworkBehaviour
 {
-    private MovementHandler _movement;
-    public void Move(InputAction.CallbackContext context)
+    private NetworkObject _networkObject;
+
+    private void Awake()
     {
-        _movement.SetDirection(context.ReadValue<Vector3>().normalized);
+        _networkObject = GetComponent<NetworkObject>();
     }
 
-    public void Jump(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            _movement.SetVertical(1);
-        }
-    }
-    // Start is called before the first frame update
-    private void Start()
-    {
-        _movement = GetComponent<MovementHandler>();
-    }
-
-    private ColorState _targetedColorState;
+    // Trigger on state authority
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent(out _targetedColorState))
+        if (!HasStateAuthority) return;
+
+        if (other.TryGetComponent<Attracted>(out var attracted))
         {
-            _targetedColorState.StartAttraction(); 
+            attracted.SetAttractedTo(Object);  // NetworkObject reference
+        }
+
+        if (other.TryGetComponent<ColorState>(out var colorState))
+        {
+            colorState.StartAttraction();
         }
     }
 }

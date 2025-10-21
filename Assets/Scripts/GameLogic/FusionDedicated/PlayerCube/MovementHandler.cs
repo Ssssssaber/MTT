@@ -1,36 +1,21 @@
+using Fusion;
 using UnityEngine;
 
-public class MovementHandler : MonoBehaviour
+public class MovementHandler : NetworkBehaviour
 {
     private Rigidbody _rigid;
-    public float _speed;
-    private Vector3 _direction;
-
-    public void SetSpeed(float newSpeed)
-    {
-        _speed = newSpeed;
-    }
-
-    public void SetDirection(Vector3 direction)
-    {
-        _direction = direction; 
-    }
-
-    public void SetVertical(float vertical)
-    {
-        _direction.y = vertical;
-    }
-
-    // Start is called before the first frame update
-    private void Start()
+    [SerializeField] private float _speed = 50.0f;
+    private void Awake()
     {
         _rigid = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    public override void FixedUpdateNetwork()
     {
-        if (_direction == Vector3.zero) return;
-
-        _rigid.AddForce(_direction * _speed * Time.deltaTime, ForceMode.VelocityChange);
+        if (GetInput(out NetworkInputData data))
+        {
+            data.direction.Normalize();
+           _rigid.AddForce(data.direction * _speed * Runner.DeltaTime, ForceMode.VelocityChange);
+        }
     }
 }
