@@ -573,6 +573,8 @@ GameObject:
   m_Component:
   - component: {fileID: 766914990}
   - component: {fileID: 766914991}
+  - component: {fileID: 766914993}
+  - component: {fileID: 766914992}
   m_Layer: 0
   m_Name: FusionSpawner
   m_TagString: Untagged
@@ -609,6 +611,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BasicSpawner
   _playerPrefab:
     RawGuidValue: 9be24f1e982035a43a9eebffdc5cf1d0
+--- !u!114 &766914992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766914989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8edbe7108d8a43ab838cf8b8d9453df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Unity::Fusion.RunnerEnableVisibility
+--- !u!114 &766914993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766914989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1199893898, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkRunner
 --- !u!1 &911079427
 GameObject:
   m_ObjectHideFlags: 0

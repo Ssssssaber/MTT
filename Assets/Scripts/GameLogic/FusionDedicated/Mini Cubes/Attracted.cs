@@ -16,7 +16,7 @@ class Attracted : NetworkBehaviour
         _attractedTo = newAttractedTo;
     }
 
-    private void Start()
+    public override void Spawned()
     {
         _rigid = GetComponent<Rigidbody>();
     }
@@ -29,4 +29,3 @@ class Attracted : NetworkBehaviour
         _rigid.AddForce(_strengthOfAttraction * _rigid.mass * _distanceVector.normalized * deltaTime);
     }
 }
-

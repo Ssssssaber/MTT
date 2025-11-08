@@ -9,6 +9,8 @@ public class ColorState : NetworkBehaviour
     public Color _interactedColor = Color.red;
     private Attracted _attracted;
 
+    [Networked] private Color syncedColor { get; set; }
+
     [SerializeField]
     private float _timeToColorFade = 5f;
     private bool _colorChanged = false;
@@ -21,11 +23,18 @@ public class ColorState : NetworkBehaviour
         _material = GetComponent<MeshRenderer>().material;
         _originalColor = _material.color;
     }
+
+    public override void Spawned()
+    {
+        base.Spawned();
+        syncedColor = _originalColor;
+    }
+
     public void StartAttraction()
     {
         if (!_material) return;
 
-        _material.color = _interactedColor;
+        syncedColor = _interactedColor;
         _colorChanged = true;
     }
 
@@ -34,18 +43,23 @@ public class ColorState : NetworkBehaviour
         SimulationUpdate(Runner.DeltaTime);
     }
 
+    public override void Render()
+    {
+        _material.color = syncedColor;
+    }
+
     private void SimulationUpdate(float deltaTime)
     {
         if (!_colorChanged) return;
 
         _timePassed += deltaTime;
-        _material.color = Color.Lerp(_material.color, _originalColor, deltaTime / _timeToColorFade);
+        syncedColor = Color.Lerp(_material.color, _originalColor, deltaTime / _timeToColorFade);
         _attracted.PerformAtrraction(deltaTime);
         if (_timePassed >= _timeToColorFade)
         {
             _colorChanged = false;
             _timePassed = 0f;
-            _material.color = _originalColor;
+            syncedColor = _originalColor;
         }
     }
 }
