@@ -12,24 +12,23 @@ public class MirrorCubeBehaviour : NetworkBehaviour
     
     }
    
-    public void OnRestartButtonPressed()
+    public void OnRestartButtonPressed(uint cubeCount)
     {
         if (isLocalPlayer) 
         {
-            CmdRequestGameRestart();
+            CmdRequestGameRestart(cubeCount);
         }
     }
 
     [Command]
-    private void CmdRequestGameRestart()
+    private void CmdRequestGameRestart(uint cubeCount)
     {
-        MirrorGameManager.instance.RestartTheGame();
+        MirrorGameManager.instance.RestartTheGame(cubeCount);
     }
 
     // Called on client input
     public void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log(isLocalPlayer);
         if (!isLocalPlayer) return;
 
         Vector3 dir = context.ReadValue<Vector3>().normalized;

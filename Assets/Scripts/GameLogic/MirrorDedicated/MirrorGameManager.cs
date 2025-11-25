@@ -40,6 +40,12 @@ public class MirrorGameManager : NetworkBehaviour
         Physics.gravity = _gravity;
     }
 
+    [Command]
+    public void CmdSetCubeCount(uint count)
+    {
+        CubeCount = count;
+    }
+
     [Server]
     private void SpawnMiniCube(Vector3 position)
     {

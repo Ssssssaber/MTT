@@ -8,8 +8,7 @@ public class RestartGameUI : MonoBehaviour
     {
         if (uint.TryParse(_inputField.text, out uint cubeCount))
         {
-            _gameManager.CubeCount = cubeCount;
-            _gameManager.GetPlayer().OnRestartButtonPressed();
+            _gameManager.GetPlayer().OnRestartButtonPressed(cubeCount);
         }
     }
 }
