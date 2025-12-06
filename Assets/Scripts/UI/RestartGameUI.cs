@@ -16,8 +16,7 @@ public class RestartGameUI : MonoBehaviour
 
         if (uint.TryParse(_inputField.text, out uint cubeCount))
         {
-            gameManager.CubeCount = cubeCount;
-            player.ServerRpcAskForRestartGame();
+            player.ServerRpcAskForRestartGame(cubeCount);
         }
     }
 }

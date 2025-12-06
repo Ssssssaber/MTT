@@ -36,13 +36,12 @@ class Attracted : NetworkBehaviour
             var collider = GetComponent<BoxCollider>();
             collider.enabled = false; 
         }
-
     }
 
     [Server]
     public void PerformAtrraction(float deltaTime)
     {
-        if (_attractedTo == null) return;
+        if (_attractedTo.Value == null) return;
 
         _distanceVector = _attractedTo.Value.transform.position - transform.position;
         _rigid.AddForce(_strengthOfAttraction * _rigid.mass * _distanceVector.normalized * deltaTime);

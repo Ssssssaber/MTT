@@ -41,9 +41,9 @@ public class CubeBehaviour : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void ServerRpcAskForRestartGame()
+    public void ServerRpcAskForRestartGame(uint cubeCount)
     {
-        GameManager.Instance.RestartTheGame();
+        GameManager.Instance.RestartTheGame(cubeCount);
     }
 
     private void OnTriggerEnter(Collider other)

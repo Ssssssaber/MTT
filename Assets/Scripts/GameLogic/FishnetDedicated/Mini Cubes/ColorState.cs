@@ -59,6 +59,7 @@ public class ColorState : NetworkBehaviour
         {
             _colorChanged = false;
             _timePassed = 0f;
+			_currentColor.Value = _originalColor;
         }
     }
 

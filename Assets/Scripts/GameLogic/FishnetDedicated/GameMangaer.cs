@@ -128,7 +128,7 @@ public class GameManager : NetworkBehaviour
     //}
 
     [Server]
-    public void RestartTheGame()
+    public void RestartTheGame(uint cubeCount)
     {
         RpcPrepeareobjectsParent();
 
@@ -143,7 +143,7 @@ public class GameManager : NetworkBehaviour
 
         Vector3 planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
         Vector3 offset = new Vector3(-planeSize.x / 2, 0, -planeSize.z / 2);
-        FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(planeSize.x / 2), (int)(planeSize.z / 2), 2f, CubeCount);
+        FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(planeSize.x / 2), (int)(planeSize.z / 2), 2f, cubeCount);
 
         _gameStarted = true;
     }
