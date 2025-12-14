@@ -1,16 +1,20 @@
 using UnityEngine;
+using Fusion;
 
 public class RestartGameUI : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;
     [SerializeField] private TMPro.TMP_InputField _inputField;
     public void OnRestartButtonClicked()
     {
-        if (uint.TryParse(_inputField.text, out uint cubeCount))
+		var gameManager = GameManager.Instance;
+		if (gameManager == null) return;
+
+		var player = gameManager.CurrentPlayerCube;
+		if (player == null) return;
+
+		if (uint.TryParse(_inputField.text, out uint cubeCount))
 		{
-			// _gameManager.CubeCount = cubeCount;
-			// _gameManager.GetPlayer().OnRestartButtonPressed();
-			_gameManager.RestartTheGame(cubeCount);
+			player.AskForRestart(cubeCount);
 		}
     }
 }

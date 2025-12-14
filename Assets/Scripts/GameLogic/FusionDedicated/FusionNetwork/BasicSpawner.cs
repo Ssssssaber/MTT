@@ -30,8 +30,6 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 			Scene = scene,
 			SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
 		});
-
-        GameManager.instance.RestartTheGame(1000);
     }
     private void OnGUI()
 	{
@@ -57,7 +55,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 			// Create a unique position for the player
 			Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
 			NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
-			GameManager.instance.SetCurrentPlayer(networkPlayerObject.GetComponent<CubeBehaviour>());
+			GameManager.Instance.SetPlayerCube(networkPlayerObject.GetComponent<CubeBehaviour>());
 			// Keep track of the player avatars for easy access
 			_spawnedCharacters.Add(player, networkPlayerObject);
 		}

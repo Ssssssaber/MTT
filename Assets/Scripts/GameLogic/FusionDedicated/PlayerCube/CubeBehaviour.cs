@@ -1,5 +1,7 @@
-﻿using Fusion;
+﻿
+using Fusion;
 using System.Collections;
+using System.Globalization;
 using UnityEngine;
 
 public class CubeBehaviour : NetworkBehaviour
@@ -10,6 +12,32 @@ public class CubeBehaviour : NetworkBehaviour
     {
         _networkObject = GetComponent<NetworkObject>();
     }
+
+    private void Start()
+    {
+        SetAsCurrent();
+    }
+    private void SetAsCurrent()
+    {
+        if (!HasInputAuthority) return;
+
+        GameManager.Instance.SetCurrentPlayerCube(this);
+    }
+
+    public void AskForRestart(uint cubeCount)
+    {
+        if (HasStateAuthority)
+            GameManager.Instance.RestartTheGame(cubeCount);
+        else
+            RpcAskForRestartGame(cubeCount);
+    }
+
+	[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RpcAskForRestartGame(uint cubeCount)
+    {
+        GameManager.Instance.RestartTheGame(cubeCount);
+    }
+
 
     // Trigger on state authority
     private void OnTriggerEnter(Collider other)
