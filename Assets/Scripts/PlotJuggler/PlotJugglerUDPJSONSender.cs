@@ -12,7 +12,7 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
     [Header("PlotJuggler Connection Settings")]
     public string plotJugglerIP = "127.0.0.1";
     public int plotJugglerPort = 9000;
-    public float sendInterval = 0.1f;
+    public float sendInterval = 0.5f;
 
     private UdpClient udpClient;
     private IPEndPoint remoteEndPoint;
@@ -131,7 +131,7 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
         stringBuilder.Append(@"
         {
             ""timestamp"": ");
-        stringBuilder.Append(GetUnixTimestamp().ToString(CultureInfo.InvariantCulture));
+        stringBuilder.Append(Time.time.ToString(CultureInfo.InvariantCulture));
         stringBuilder.Append(@",
             ""data"": {");
 
@@ -154,11 +154,6 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
         }");
 
         return stringBuilder.ToString();
-    }
-
-    private double GetUnixTimestamp()
-    {
-        return (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
     }
 
     private void OnGUI()
@@ -199,6 +194,7 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
         {
             if (GUILayout.Button("Connected to PlotJuggler"))
             {
+                DisconnectFromPlotJuggler();
             }
         }
         else
