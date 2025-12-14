@@ -10,13 +10,12 @@ namespace FishNet.Component.Utility
 {
     public class NetworkBandwidthCollector : MonoBehaviour, IMetricsCollector
     {
+        [SerializeField] private float _updateInterval = 0.1f;
         private ulong _dataIn = 0;
         private ulong _dataOut = 0;
         private NetworkTrafficStatistics _networkTrafficStatistics;
         private bool _initialized = false;
         private byte _secondsAveraged = 1;
-        private float _lastUpdateTime = 0f;
-        private float _updateInterval = 1f;
 
         private void Start()
         {
@@ -34,7 +33,6 @@ namespace FishNet.Component.Utility
             SetSecondsAveraged(_secondsAveraged);
             _networkTrafficStatistics.OnNetworkTraffic += NetworkTrafficStatistics_OnNetworkTraffic;
             _initialized = true;
-            _lastUpdateTime = Time.time;
         }
 
         void OnEnable()
@@ -62,28 +60,15 @@ namespace FishNet.Component.Utility
         {
             var dataDict = new Dictionary<string, float>();
 
-            // Calculate KB/s
-            float timeSinceLastUpdate = Time.time - _lastUpdateTime;
+            float inKbps = (_dataIn / 1024f);
+            float outKbps = (_dataOut / 1024f);
 
-            if (timeSinceLastUpdate >= _updateInterval)
-            {
-                float inKbps = (_dataIn / 1024f) / timeSinceLastUpdate;
-                float outKbps = (_dataOut / 1024f) / timeSinceLastUpdate;
+            dataDict.Add("Bandwidth/Received (KB)", inKbps);
+            dataDict.Add("Bandwidth/Sent (KB)", outKbps);
 
-                dataDict.Add("Bandwidth/Received (KB/s)", inKbps);
-                dataDict.Add("Bandwidth/Sent (KB/s)", outKbps);
-
-                // Reset counters
-                _dataIn = 0;
-                _dataOut = 0;
-                _lastUpdateTime = Time.time;
-            }
-            else
-            {
-                // Return zeros if not enough time has passed
-                dataDict.Add("Bandwidth/Received (KB/s)", 0f);
-                dataDict.Add("Bandwidth/Sent (KB/s)", 0f);
-            }
+            // Reset counters
+            _dataIn = 0;
+            _dataOut = 0;
 
             return dataDict;
         }
@@ -94,13 +79,13 @@ namespace FishNet.Component.Utility
                 return;
 
             // Accumulate traffic data
-            if (InstanceFinder.IsServer)
+            if (InstanceFinder.IsServerStarted)
             {
                 _dataIn += serverTraffic.GetInboundTraffic();
                 _dataOut += serverTraffic.GetOutboundTraffic();
             }
 
-            if (InstanceFinder.IsClient)
+            if (InstanceFinder.IsClientStarted)
             {
                 _dataIn += clientTraffic.GetInboundTraffic();
                 _dataOut += clientTraffic.GetOutboundTraffic();
