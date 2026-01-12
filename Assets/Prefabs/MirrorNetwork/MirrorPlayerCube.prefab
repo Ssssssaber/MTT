@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 2011710460468710577}
   - component: {fileID: -8987053293156021568}
   - component: {fileID: -4589969546740412718}
-  - component: {fileID: 3553739525790199480}
+  - component: {fileID: 3122097630457715617}
   m_Layer: 0
   m_Name: MirrorPlayerCube
   m_TagString: Untagged
@@ -300,7 +300,7 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
---- !u!114 &3553739525790199480
+--- !u!114 &3122097630457715617
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,4 +316,4 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _moveInterval: 1
+  _moveInterval: 0.1

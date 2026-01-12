@@ -10,11 +10,14 @@ public class MirrorNetworkManager : NetworkManager
                 ? Instantiate(playerPrefab, startPos.position, startPos.rotation)
                 : Instantiate(playerPrefab);
 
-        // instantiating a "Player" prefab gives it the name "Player(clone)"
-        // => appending the connectionId is WAY more useful for debugging!
         player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
-        NetworkServer.AddPlayerForConnection(conn, player);
+ 
+        if (player.TryGetComponent(out MirrorCubeAutoMovement autoMove))
+        {
+            autoMove.enabled = GameManager.Instance.GetCommandLineArguments().playerAuto;
+        }
 
+        NetworkServer.AddPlayerForConnection(conn, player);
         MirrorGameManager.instance.TargetRpcSetCurrentPlayerCube(conn, player.gameObject.GetComponent<MirrorCubeBehaviour>());
     }
 }

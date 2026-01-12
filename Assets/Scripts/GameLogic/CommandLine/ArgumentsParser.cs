@@ -1,31 +1,23 @@
 using UnityEngine;
 
-public class ArgumentParser : MonoBehaviour
+public class ArgumentsParser : MonoBehaviour
 {
 	[Header("Editor arguments")]
 	[SerializeField] private string[] _baseCommandLineArguments;
-	[SerializeField] private bool _useEditorCommandLineArguments = false;
 	
-	[SerializeField] CommandLineArguments _arguments = new CommandLineArguments();
+	[SerializeField] InitArguments _arguments = new InitArguments();
 
 	private string[] _rawCommandLineArguments;
 
-	public CommandLineArguments GetCommandLineArguments()
+	public InitArguments GetCommandLineArguments()
 	{
 		return _arguments;
 	}
 
 	private void Awake()
 	{
-	#if UNITY_EDITOR
-		if (!_useEditorCommandLineArguments) return;
-	#endif
-
 		_rawCommandLineArguments = GetArguments();
 		Parse(_rawCommandLineArguments);
-
-		Debug.Log($"Resulting command line arguments: " + 
-					$"{_arguments.isServer}, {_arguments.isClient}, {_arguments.recordingTime}");
 	}
 
 	private string[] GetArguments()
@@ -53,6 +45,9 @@ public class ArgumentParser : MonoBehaviour
 					break;
 				case "--recording-time":
 					if (i + 1 < arguments.Length) _arguments.recordingTime = uint.Parse(arguments[i + 1]);
+					break;
+				case "--player-auto":
+					if (i + 1 < arguments.Length) _arguments.playerAuto = bool.Parse(arguments[i + 1]);
 					break;
 			}
 		}

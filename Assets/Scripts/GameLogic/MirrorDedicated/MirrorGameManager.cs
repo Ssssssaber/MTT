@@ -40,6 +40,11 @@ public class MirrorGameManager : NetworkBehaviour
         Physics.gravity = _gravity;
     }
 
+    public override void OnStartServer()
+    {
+        RestartTheGame();
+    }
+
     [Command]
     public void CmdSetCubeCount(uint count)
     {
