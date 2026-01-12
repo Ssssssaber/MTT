@@ -9,7 +9,6 @@ public class MirrorCubeBehaviour : NetworkBehaviour
     private void Start()
     {
         _movement = GetComponent<MirrorMovementHandler>();
-    
     }
    
     public void OnRestartButtonPressed(uint cubeCount)
