@@ -6,4 +6,3 @@ public class InitArguments
 	public bool isServer = false;
 	public uint recordingTime = 0;
 }
-
