@@ -320,6 +320,7 @@ Transform:
   - {fileID: 2003198381}
   - {fileID: 5163149656223227806}
   - {fileID: 542970068}
+  - {fileID: 850074205}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &584506952
@@ -726,6 +727,11 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!4 &850074205 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5809221536672758319, guid: 40004b68260f20447ae4af5950b0c32d, type: 3}
+  m_PrefabInstance: {fileID: 7483790813569827080}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &911079427
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,7 +969,7 @@ Transform:
   m_GameObject: {fileID: 1021040006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.943122, y: -17.335863, z: 49.879074}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2103,8 +2109,8 @@ MonoBehaviour:
   - --player-auto
   - true
   _arguments:
-    isClient: 0
     playerAuto: 0
+    isClient: 0
     isServer: 0
     recordingTime: 100
 --- !u!114 &1560350074
@@ -2121,8 +2127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _initWithCommandLineArguments: 1
   _initializeArguments:
-    isClient: 0
     playerAuto: 0
+    isClient: 0
     isServer: 0
     recordingTime: 0
 --- !u!1 &1598243670
@@ -2496,7 +2502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5845453554250060548, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 134.70004
+      value: 134.82198
       objectReference: {fileID: 0}
     - target: {fileID: 5994995790613907733, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2798,7 +2804,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 7483790813569827080}
   - {fileID: 705507995}
   - {fileID: 963194228}
   - {fileID: 1021040007}
