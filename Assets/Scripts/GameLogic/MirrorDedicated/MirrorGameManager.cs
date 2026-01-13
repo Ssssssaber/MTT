@@ -25,6 +25,7 @@ public class MirrorGameManager : NetworkBehaviour
     [SerializeField] private GameObject _objectsParentPrefab;
     private GameObject _objectsParent;
     private MirrorCubeBehaviour _currentPlayerCube;
+    private CallbackTimer _restartSimulationTimer;
 
     private void Awake()
     {
@@ -42,6 +43,9 @@ public class MirrorGameManager : NetworkBehaviour
 
     public override void OnStartServer()
     {
+        var initArgs = GameManager.Instance.GetCommandLineArguments();
+        CubeCount = initArgs.cubeCount;
+        _restartSimulationTimer = new CallbackTimer(RestartTheGame, initArgs.recordingTime, true);
         RestartTheGame();
     }
 
@@ -84,6 +88,12 @@ public class MirrorGameManager : NetworkBehaviour
 
     public uint CubeCount = 1000;
  
+    [Server]
+    public void RestartTheGame()
+    {
+        RestartTheGame(CubeCount);
+    }
+
     [ClientRpc]
     public void RpcPrepeareObjectsParent()
     {
@@ -138,6 +148,8 @@ public class MirrorGameManager : NetworkBehaviour
     // Update is called once per frame (no changes needed)
     void Update()
     {
-        // Add any client/server logic here if needed
+        if (_restartSimulationTimer == null) return;
+
+        _restartSimulationTimer.Update(Time.deltaTime);
     }
 }

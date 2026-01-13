@@ -30,8 +30,6 @@ public class MirrorMovementHandler : NetworkBehaviour
     {
         if (!isServer) return;
         _direction = direction;
-
-        Debug.Log($"Direction set to {_direction}");
     }
 
     public void SetVertical(float vertical)

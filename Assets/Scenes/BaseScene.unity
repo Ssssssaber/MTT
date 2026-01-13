@@ -2105,14 +2105,18 @@ MonoBehaviour:
   - --client
   - false
   - --recording-time
-  - 100
+  - 20
   - --player-auto
   - true
+  - --help
+  - --cube-count
+  - 800
   _arguments:
     playerAuto: 0
     isClient: 0
     isServer: 0
     recordingTime: 100
+    cubeCount: 500
 --- !u!114 &1560350074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2131,6 +2135,7 @@ MonoBehaviour:
     isClient: 0
     isServer: 0
     recordingTime: 0
+    cubeCount: 500
 --- !u!1 &1598243670
 GameObject:
   m_ObjectHideFlags: 0
@@ -2502,7 +2507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5845453554250060548, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 134.70001
+      value: 134.69998
       objectReference: {fileID: 0}
     - target: {fileID: 5994995790613907733, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_SizeDelta.y

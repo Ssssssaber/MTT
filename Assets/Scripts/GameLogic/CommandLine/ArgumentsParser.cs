@@ -14,6 +14,7 @@ public class ArgumentsParser : MonoBehaviour
 		{ "--client", (typeof(bool), "Run as a client. Example: --client true") },
 		{ "--recording-time", (typeof(uint), "SERVER: Set the recording time in seconds. Example: --recording-time 60") },
 		{ "--player-auto", (typeof(bool), "SERVER: Enable automatic player movement. Example: --player-auto true") },
+		{ "--cube-count", (typeof(uint), "SERVER: Mini cube count for simulation. Example: --cube-count 500") },
 		{ "--help", (typeof(bool), "Display this help message and exit.") }
 	};
 
@@ -65,6 +66,9 @@ public class ArgumentsParser : MonoBehaviour
 					break;
 				case "--player-auto":
 					if (i + 1 < arguments.Length) _arguments.playerAuto = bool.Parse(arguments[i + 1]);
+					break;
+				case "--cube-count":
+					if (i + 1 < arguments.Length) _arguments.cubeCount = uint.Parse(arguments[i + 1]);
 					break;
 			}
 		}
