@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class ArgumentsParser : MonoBehaviour
 {
@@ -69,6 +70,9 @@ public class ArgumentsParser : MonoBehaviour
 					break;
 				case "--cube-count":
 					if (i + 1 < arguments.Length) _arguments.cubeCount = uint.Parse(arguments[i + 1]);
+					break;
+				case "--client-id":
+					if (i + 1 < arguments.Length) _arguments.ClientId = arguments[i + 1];
 					break;
 			}
 		}

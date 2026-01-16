@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] bool _initWithCommandLineArguments = true;
 	[SerializeField] private InitArguments _initializeArguments;
 	private ArgumentsParser _parser;
+	public static Action ArgumentsInitialized;
 
 	public InitArguments GetCommandLineArguments()
 	{
@@ -31,23 +33,27 @@ public class GameManager : MonoBehaviour
 	{
 		_initializeArguments = _parser.GetCommandLineArguments();
 		ProcessCommandLineArguments();
+		ArgumentsInitialized?.Invoke();
 	}
 
 	private void ProcessCommandLineArguments()
 	{
 		if (!_initWithCommandLineArguments) return;
 
-		if (_initializeArguments.isClient)
+		if (_initializeArguments.isClient && _initializeArguments.isServer)
 		{
+			Debug.Log("starting host");
+			NetworkManager.singleton.StartHost();
+		}
+		else if (_initializeArguments.isClient)
+		{
+			Debug.Log("starting cient");
 			NetworkManager.singleton.StartClient();
 		}
 		else if (_initializeArguments.isServer)
 		{
+			Debug.Log("starting server");
 			NetworkManager.singleton.StartServer();
-		}
-		else if (_initializeArguments.isClient && _initializeArguments.isServer)
-		{
-			NetworkManager.singleton.StartHost();
 		}
 
 		Debug.Log($"Rec time is: {_initializeArguments.recordingTime}");

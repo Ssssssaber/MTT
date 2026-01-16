@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class PlotJugglerUDPJSONSender : MonoBehaviour
 {
@@ -18,13 +20,40 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
     private IPEndPoint remoteEndPoint;
     private bool isConnected = false;
     private List<IMetricsCollector> _metricsCollectors = new List<IMetricsCollector>();
-    private StringBuilder stringBuilder = new StringBuilder();
     private Coroutine sendCoroutine;
     private Rect windowRect = new Rect(10, Screen.height - 200, 250, 190);
+    private string clientID;
 
     private void Awake()
     {
         FindMetricsCollectors();
+        GameManager.ArgumentsInitialized += InitializeConnection;
+    }
+
+	private void InitializeConnection()
+    {
+        var args = GameManager.Instance.GetCommandLineArguments(); 
+        clientID = args.ClientId;
+        if (args.isClient || args.isServer)
+        {
+            ConnectToPlotJuggler();
+        }
+        MirrorGameManager.RecordingStopped += OnRecordingStopped;
+    }
+
+	private void OnRecordingStopped()
+    {
+        SendStopRecordingMessage();
+    }
+
+    private void SendStopRecordingMessage()
+    {
+        var stopMessage = new JObject
+        {
+            ["stop_recording"] = true,
+            ["client_id"] = clientID
+        };
+        SendJSONMessage(stopMessage.ToString(Formatting.None));
     }
 
     private void FindMetricsCollectors()
@@ -100,6 +129,7 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
 
         try
         {
+            Debug.Log($"Sending message: {message}");
             byte[] data = Encoding.UTF8.GetBytes(message);
             udpClient.Send(data, data.Length, remoteEndPoint);
         }
@@ -112,7 +142,6 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
 
     private string CreatePlotJugglerJSON()
     {
-        stringBuilder.Clear();
         Dictionary<string, float> fullMetrics = new Dictionary<string, float>();
 
         foreach (IMetricsCollector collector in _metricsCollectors)
@@ -128,32 +157,14 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
             }
         }
 
-        stringBuilder.Append(@"
+        var dataObject = new JObject
         {
-            ""timestamp"": ");
-        stringBuilder.Append(Time.time.ToString(CultureInfo.InvariantCulture));
-        stringBuilder.Append(@",
-            ""data"": {");
+            ["timestamp"] = Time.time,
+            ["client_id"] = clientID,
+            ["data"] = JObject.FromObject(fullMetrics.ToDictionary(kvp => kvp.Key, kvp => kvp.Value))
+        };
 
-        bool firstEntry = true;
-        foreach (KeyValuePair<string, float> metric in fullMetrics)
-        {
-            if (!firstEntry)
-            {
-                stringBuilder.Append(", ");
-            }
-            stringBuilder.Append("\"");
-            stringBuilder.Append(metric.Key);
-            stringBuilder.Append("\": ");
-            stringBuilder.Append(metric.Value.ToString(CultureInfo.InvariantCulture));
-            firstEntry = false;
-        }
-
-        stringBuilder.Append(@"
-            }
-        }");
-
-        return stringBuilder.ToString();
+        return dataObject.ToString(Formatting.None);
     }
 
     private void OnGUI()
@@ -188,6 +199,11 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
         {
             sendInterval = newInterval;
         }
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Client ID:", GUILayout.Width(80));
+        clientID = GUILayout.TextField(clientID);
         GUILayout.EndHorizontal();
 
         if (isConnected)

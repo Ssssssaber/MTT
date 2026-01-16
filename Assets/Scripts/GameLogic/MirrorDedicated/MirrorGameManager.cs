@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class MirrorGameManager : NetworkBehaviour
 {
@@ -14,6 +15,7 @@ public class MirrorGameManager : NetworkBehaviour
     private GameObject _miniCubePrefab;  // Must be a networked prefab with NetworkIdentity
     [SerializeField]
     private GameObject _playerCubePrefab;  // Assumed to be spawned by NetworkManager as player object
+    public static Action RecordingStopped;
 
     [SerializeField]
     private GameObject _box;
@@ -91,6 +93,7 @@ public class MirrorGameManager : NetworkBehaviour
     [Server]
     public void RestartTheGame()
     {
+        RecordingStopped.Invoke();
         RestartTheGame(CubeCount);
     }
 

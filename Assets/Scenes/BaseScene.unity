@@ -2101,9 +2101,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ArgumentParser
   _baseCommandLineArguments:
   - --server
-  - false
+  - true
   - --client
-  - false
+  - true
   - --recording-time
   - 20
   - --player-auto
@@ -2112,6 +2112,7 @@ MonoBehaviour:
   - --cube-count
   - 800
   _arguments:
+    ClientId: Client0
     playerAuto: 0
     isClient: 0
     isServer: 0
@@ -2131,6 +2132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _initWithCommandLineArguments: 1
   _initializeArguments:
+    ClientId: Client0
     playerAuto: 0
     isClient: 0
     isServer: 0
@@ -2507,7 +2509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5845453554250060548, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 134.69998
+      value: 139.80234
       objectReference: {fileID: 0}
     - target: {fileID: 5994995790613907733, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2746,7 +2748,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 584506949}
     m_Modifications:
     - target: {fileID: 1750757932961395218, guid: 40004b68260f20447ae4af5950b0c32d, type: 3}
       propertyPath: m_Name
@@ -2759,6 +2761,10 @@ PrefabInstance:
     - target: {fileID: 5037584131550068318, guid: 40004b68260f20447ae4af5950b0c32d, type: 3}
       propertyPath: sendInterval
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037584131550068318, guid: 40004b68260f20447ae4af5950b0c32d, type: 3}
+      propertyPath: plotJugglerPort
+      value: 9000
       objectReference: {fileID: 0}
     - target: {fileID: 5809221536672758319, guid: 40004b68260f20447ae4af5950b0c32d, type: 3}
       propertyPath: m_LocalPosition.x
