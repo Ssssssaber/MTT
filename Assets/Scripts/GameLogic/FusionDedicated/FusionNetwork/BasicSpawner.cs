@@ -38,6 +38,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
 		// Start or join (depends on gamemode) a session with a specific name
 		await _runner.StartGame(startGameArgs);
+		GameManager.Instance.InvokeArgumentsReady();
     }
     private void OnGUI()
 	{

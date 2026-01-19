@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour
 	{
 		_initializeArguments = _parser.GetCommandLineArguments();
 		ProcessCommandLineArguments();
-		ArgumentsInitialized?.Invoke();
 	}
 
 	private void ProcessCommandLineArguments()
@@ -53,8 +52,7 @@ public class GameManager : MonoBehaviour
 		else if (_initializeArguments.isClient)
 		{
 			Debug.Log("starting cient");
-			_spawner.StartGame(Fusion.GameMode.Client
-            , _initializeArguments.serverAddress, _initializeArguments.serverPort);
+			_spawner.StartGame(Fusion.GameMode.Client, _initializeArguments.serverAddress, _initializeArguments.serverPort);
 		}
 		else if (_initializeArguments.isServer)
 		{
@@ -64,4 +62,9 @@ public class GameManager : MonoBehaviour
 
 		Debug.Log($"Rec time is: {_initializeArguments.recordingTime}");
 	}
+
+    public void InvokeArgumentsReady()
+    {
+		ArgumentsInitialized?.Invoke();
+    }
 }
