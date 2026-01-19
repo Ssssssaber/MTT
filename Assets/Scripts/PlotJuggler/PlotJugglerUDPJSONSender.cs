@@ -33,7 +33,7 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
 	private void InitializeConnection()
     {
         var args = GameManager.Instance.GetCommandLineArguments(); 
-        clientID = args.ClientId;
+        clientID = ConnectionInfo.GetConnectionInfo();
         if (args.isClient || args.isServer)
         {
             ConnectToPlotJuggler();
@@ -129,7 +129,6 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
 
         try
         {
-            Debug.Log($"Sending message: {message}");
             byte[] data = Encoding.UTF8.GetBytes(message);
             udpClient.Send(data, data.Length, remoteEndPoint);
         }
