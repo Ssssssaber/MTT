@@ -7,6 +7,8 @@ ScriptTemplates/
 /.vscode
 Recordings/
 Packages/
+*.zip
+build-linux-server-fishnet/
 NuGet/
 UserLogs/
 ### Unity ###
