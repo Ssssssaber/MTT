@@ -10,7 +10,7 @@ public class CubeBehaviour : NetworkBehaviour
     [TargetRpc]
     public void TargetRpcSetAsCurrentPlayer(NetworkConnection conn)
     {
-        GameManager.Instance.SetCurrentPlayerCube(this);
+        FishNetGameManager.Instance.SetCurrentPlayerCube(this);
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -37,13 +37,13 @@ public class CubeBehaviour : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-         GameManager.Instance.SetCurrentPlayerCube(this);
+         FishNetGameManager.Instance.SetCurrentPlayerCube(this);
     }
 
     [ServerRpc]
     public void ServerRpcAskForRestartGame(uint cubeCount)
     {
-        GameManager.Instance.RestartTheGame(cubeCount);
+        FishNetGameManager.Instance.RestartTheGame(cubeCount);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 2563627028481726960}
   - component: {fileID: -6717912766527568326}
   - component: {fileID: -8385424333254966140}
+  - component: {fileID: 8075089977440585519}
   m_Layer: 0
   m_Name: FishNetPlayerCube
   m_TagString: Untagged
@@ -67,6 +68,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -88,9 +94,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &5970140455040512288
 BoxCollider:
@@ -120,10 +128,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146450355213639582}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 5000
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -180,7 +188,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: ef674349-5470-48b4-b856-31d00fd453f1
-    m_ActionName: Default/Movement[/Keyboard/w,/Keyboard/a,/Keyboard/d]
+    m_ActionName: 'Default/Movement[/Keyboard/w,/Keyboard/a,/Keyboard/d]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Default
@@ -240,6 +248,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
+  _initializedTimestamp: 0
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -257,7 +266,7 @@ MonoBehaviour:
   <PrefabId>k__BackingField: 11
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 16448170407742229689
-  <SceneId>k__BackingField: 0
+  SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 10, z: 0}
     Rotation: {x: -0, y: -0, z: -0, w: 1}
@@ -294,7 +303,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 7461347032294050929}
   _networkObjectCache: {fileID: 7461347032294050929}
   _clientPhysics: 0
-  _speed: 50
+  _speed: 20
 --- !u!114 &-6717912766527568326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,3 +366,19 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &8075089977440585519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146450355213639582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea06b40aae3ff6d46b7722ca0163b60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishNetCubeAutoMovement
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7461347032294050929}
+  _networkObjectCache: {fileID: 0}
+  _moveInterval: 0.1

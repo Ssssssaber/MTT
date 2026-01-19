@@ -8,7 +8,7 @@ public class RestartGameUI : MonoBehaviour
     {
         if (!InstanceFinder.IsClientStarted) return;
 
-        var gameManager = GameManager.Instance;
+        var gameManager = FishNetGameManager.Instance;
         if (gameManager == null) return;
 
         var player = gameManager.CurrentPlayerCube;
