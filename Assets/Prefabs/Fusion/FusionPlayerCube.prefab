@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3333692144768571515}
   - component: {fileID: 770787701497160300}
   - component: {fileID: 2130146545512646264}
+  - component: {fileID: -6452349469158011646}
   m_Layer: 0
   m_Name: FusionPlayerCube
   m_TagString: Untagged
@@ -174,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03652b841291294a9c4bb3d1694820f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 50
+  _speed: 20
 --- !u!114 &3333692144768571515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +208,7 @@ MonoBehaviour:
   - {fileID: 5185808372176884574}
   - {fileID: 3333692144768571515}
   - {fileID: 2130146545512646264}
+  - {fileID: -6452349469158011646}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &2130146545512646264
 MonoBehaviour:
@@ -231,3 +233,16 @@ MonoBehaviour:
     Position: 0.01
     Rotation: 0.01
     Scale: 0.01
+--- !u!114 &-6452349469158011646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146450355213639582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ddbde066c8f09f489313fc732a17e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveInterval: 0.1
