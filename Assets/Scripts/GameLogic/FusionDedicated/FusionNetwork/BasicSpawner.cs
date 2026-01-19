@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
 	private NetworkRunner _runner;
-	async void StartGame(GameMode mode)
+	public async void StartGame(GameMode mode, string address = null, ushort port = 0)
 	{
 		// Create the Fusion runner and let it know that we will be providing user input
 		_runner = gameObject.GetComponent<NetworkRunner>();
@@ -22,14 +22,22 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 			sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
 		}
 
-		// Start or join (depends on gamemode) a session with a specific name
-		await _runner.StartGame(new StartGameArgs()
+		var startGameArgs = new StartGameArgs()
 		{
 			GameMode = mode,
 			SessionName = "TestRoom",
 			Scene = scene,
-			SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
-		});
+			SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
+		};
+
+		if (address != null && port != 0)
+		{
+			startGameArgs.Address = NetAddress.CreateFromIpPort(address, port);
+			Debug.Log($"starting game with address and port {address}:{port}");
+		}
+
+		// Start or join (depends on gamemode) a session with a specific name
+		await _runner.StartGame(startGameArgs);
     }
     private void OnGUI()
 	{

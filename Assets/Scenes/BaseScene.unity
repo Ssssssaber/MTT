@@ -271,8 +271,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f791a129b0b51e40a040ae73957ad89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _logSink: {fileID: 4745061677448493716}
-  _outputTemplate: '[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}'
 --- !u!1 &584506948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,6 +1517,96 @@ Transform:
   - {fileID: 1517287011}
   m_Father: {fileID: 758190302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1895893728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1895893731}
+  - component: {fileID: 1895893730}
+  - component: {fileID: 1895893729}
+  m_Layer: 0
+  m_Name: ---GameManager---
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1895893729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895893728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c68548995c5ef0b4b88342ae4cee07ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseCommandLineArguments:
+  - --server
+  - true
+  - --client
+  - true
+  - --player-auto
+  - true
+  - --recording-time
+  - 20
+  - --server-port
+  - 5674
+  - --server-address
+  - 127.0.0.1
+  _arguments:
+    ClientId: Client0
+    serverAddress: 127.0.0.1
+    serverPort: 5674
+    playerAuto: 0
+    isClient: 0
+    isServer: 0
+    recordingTime: 0
+    cubeCount: 500
+--- !u!114 &1895893730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895893728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e4ea9232a2700f4790820d65ce9e478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawner: {fileID: 766914991}
+  _initWithCommandLineArguments: 1
+  _initializeArguments:
+    ClientId: Client0
+    serverAddress: 127.0.0.1
+    serverPort: 5674
+    playerAuto: 0
+    isClient: 0
+    isServer: 0
+    recordingTime: 0
+    cubeCount: 500
+--- !u!4 &1895893731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895893728}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -123.928444, y: -72.69706, z: -24.081964}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2003198379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1588,17 +1676,6 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 2003198382}
   ForceRemoteRenderTimeframe: 0
---- !u!114 &4745061677448493716 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2371892688993399808, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
-  m_PrefabInstance: {fileID: 5163149656223227805}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5163149656223227805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1745,7 +1822,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5845453554250060548, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 134.7
+      value: 134.70001
       objectReference: {fileID: 0}
     - target: {fileID: 5994995790613907733, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2042,3 +2119,4 @@ SceneRoots:
   - {fileID: 584506949}
   - {fileID: 1298049340}
   - {fileID: 8364347339494431536}
+  - {fileID: 1895893731}

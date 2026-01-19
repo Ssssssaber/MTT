@@ -1,98 +1,67 @@
-using Fusion;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using System;
+using Fusion;
 
-public class FusionGameManager : NetworkBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static FusionGameManager Instance { get; private set; }
-    public Vector3 _gravity = new Vector3(0.0f, -9.81f, 0.0f);
-    public CameraFollow _cameraFollow;
-    public CubeBehaviour CurrentPlayerCube { get; private set; }
+	public static GameManager Instance { get; private set; }
 
-    [SerializeField]
-    private GameObject _miniCubePrefab;
+	[Header("Fusion NetworkManager")]
+    public BasicSpawner _spawner;
+    public NetworkRunner Runner {get; private set; }
 
-    [SerializeField]
-    private GameObject _box;
+	[Header("Init arguments")]
+	[SerializeField] bool _initWithCommandLineArguments = true;
+	[SerializeField] private InitArguments _initializeArguments;
+	private ArgumentsParser _parser;
+	public static Action ArgumentsInitialized;
 
-    [SerializeField]
-    private GameObject _plane;
+	public InitArguments GetCommandLineArguments()
+	{
+		return _initializeArguments;
+	}
 
-    private bool _gameStarted = false;
-    private GameObject _objectsParent;
+	private void Awake()
+	{
+		if (Instance != null)
+		{
+			Destroy(gameObject);
+			return;
+		}
 
-	public void SetPlayerCube(CubeBehaviour cube) { CurrentPlayerCube = cube; }
+		Instance = this;
+		_parser = GetComponent<ArgumentsParser>();
+        Runner = _spawner.GetComponent<NetworkRunner>();
+	}
 
-    private void SpawnMiniCube(Vector3 position)
-    {
-        var no = Runner.Spawn(
-            _miniCubePrefab,
-            position,
-            Quaternion.identity,
-            inputAuthority: null
-        );
-        no.transform.SetParent(_objectsParent.transform);
+	private void Start()
+	{
+		_initializeArguments = _parser.GetCommandLineArguments();
+		ProcessCommandLineArguments();
+		ArgumentsInitialized?.Invoke();
+	}
 
-        RpcSetToParent(no.Id);
-    }
+	private void ProcessCommandLineArguments()
+	{
+		if (!_initWithCommandLineArguments) return;
 
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RpcSetToParent(NetworkId cubeId)
-    {
-        Runner.TryFindObject(cubeId, out NetworkObject cube);
-        cube.transform.SetParent(_objectsParent.transform);
-    }
+		if (_initializeArguments.isClient && _initializeArguments.isServer)
+		{
+			Debug.Log("starting host");
+			_spawner.StartGame(Fusion.GameMode.Host, _initializeArguments.serverAddress, _initializeArguments.serverPort);
+		}
+		else if (_initializeArguments.isClient)
+		{
+			Debug.Log("starting cient");
+			_spawner.StartGame(Fusion.GameMode.Client
+            , _initializeArguments.serverAddress, _initializeArguments.serverPort);
+		}
+		else if (_initializeArguments.isServer)
+		{
+			Debug.Log("starting server");
+			_spawner.StartGame(Fusion.GameMode.Server, _initializeArguments.serverAddress, _initializeArguments.serverPort);
+		}
 
-    private void FillPlaneWithCubes(Vector3 offset, int width, int height, float spacing, uint maxCubes = 100)
-    {
-        uint cubeCounter = 0;
-        for (int x = 0; x < width && cubeCounter < maxCubes; x++)
-        {
-            for (int z = 0; z < height && cubeCounter < maxCubes; z++)
-            {
-                cubeCounter++;
-                Vector3 position = new Vector3(offset.x + x * spacing, offset.y + 0.5f, offset.z + z * spacing);
-                SpawnMiniCube(position);
-            }
-        }
-    }
-
-    private void Awake()
-    {
-        Physics.gravity = _gravity;
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-    }
-
-    public void SetCurrentPlayerCube(CubeBehaviour cube)
-    {
-        CurrentPlayerCube = cube;
-        _cameraFollow.SetTarget(CurrentPlayerCube.transform);
-        if (_objectsParent == null)
-        {
-            _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
-            _objectsParent.AddComponent<NetworkObject>();
-        }
-    }
-
-    public void RestartTheGame(uint cubeCount = 1000)
-    {
-        if (_gameStarted)
-        {
-            Destroy(_objectsParent);
-        }
-
-        _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
-        _objectsParent.AddComponent<NetworkObject>();
-
-        Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
-        Vector3 offset = new Vector3(-_planeSize.x / 2, 0, -_planeSize.z / 2);
-        FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(_planeSize.x / 2), (int)(_planeSize.z / 2), 2f, cubeCount);
-
-        _gameStarted = true;
-    }
+		Debug.Log($"Rec time is: {_initializeArguments.recordingTime}");
+	}
 }
