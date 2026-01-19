@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 public class PlotJugglerUDPJSONSender : MonoBehaviour
 {
     [Header("PlotJuggler Connection Settings")]
-    public string plotJugglerIP = "127.0.0.1";
+    private string plotJugglerIP = "127.0.0.1";
     public int plotJugglerPort = 9000;
     public float sendInterval = 0.5f;
 
@@ -34,6 +34,7 @@ public class PlotJugglerUDPJSONSender : MonoBehaviour
     {
         var args = GameManager.Instance.GetCommandLineArguments(); 
         clientID = ConnectionInfo.GetConnectionInfo();
+        plotJugglerIP = args.serverAddress;
         if (args.isClient || args.isServer)
         {
             ConnectToPlotJuggler();

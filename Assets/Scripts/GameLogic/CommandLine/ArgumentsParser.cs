@@ -56,6 +56,12 @@ public class ArgumentsParser : MonoBehaviour
 
 			switch(argument)
 			{
+				case "--server-address":
+					if (i + 1 < arguments.Length) _arguments.serverAddress = arguments[i + 1];
+					break;
+				case "--server-port":
+					if (i + 1 < arguments.Length) _arguments.serverPort = ushort.Parse(arguments[i + 1]);
+					break;
 				case "--server":
 					if (i + 1 < arguments.Length) _arguments.isServer = bool.Parse(arguments[i + 1]);
 					break;

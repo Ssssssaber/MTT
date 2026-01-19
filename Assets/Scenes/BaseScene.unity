@@ -2100,19 +2100,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArgumentParser
   _baseCommandLineArguments:
-  - --server
-  - true
   - --client
   - true
-  - --recording-time
-  - 20
-  - --player-auto
-  - true
-  - --help
-  - --cube-count
-  - 800
+  - --server-port
+  - 5674
+  - --server-address
+  - 158.160.194.77
   _arguments:
     ClientId: Client0
+    serverAddress: localhost
+    serverPort: 5674
     playerAuto: 0
     isClient: 0
     isServer: 0
@@ -2133,6 +2130,8 @@ MonoBehaviour:
   _initWithCommandLineArguments: 1
   _initializeArguments:
     ClientId: Client0
+    serverAddress: localhost
+    serverPort: 5674
     playerAuto: 0
     isClient: 0
     isServer: 0
@@ -2509,7 +2508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5845453554250060548, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 139.80234
+      value: 134.70003
       objectReference: {fileID: 0}
     - target: {fileID: 5994995790613907733, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_SizeDelta.y
