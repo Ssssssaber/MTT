@@ -6,7 +6,7 @@ public class RestartGameUI : MonoBehaviour
     [SerializeField] private TMPro.TMP_InputField _inputField;
     public void OnRestartButtonClicked()
     {
-		var gameManager = GameManager.Instance;
+		var gameManager = FusionGameManager.Instance;
 		if (gameManager == null) return;
 
 		var player = gameManager.CurrentPlayerCube;

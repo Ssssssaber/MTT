@@ -21,13 +21,13 @@ public class CubeBehaviour : NetworkBehaviour
     {
         if (!HasInputAuthority) return;
 
-        GameManager.Instance.SetCurrentPlayerCube(this);
+        FusionGameManager.Instance.SetCurrentPlayerCube(this);
     }
 
     public void AskForRestart(uint cubeCount)
     {
         if (HasStateAuthority)
-            GameManager.Instance.RestartTheGame(cubeCount);
+            FusionGameManager.Instance.RestartTheGame(cubeCount);
         else
             RpcAskForRestartGame(cubeCount);
     }
@@ -35,7 +35,7 @@ public class CubeBehaviour : NetworkBehaviour
 	[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void RpcAskForRestartGame(uint cubeCount)
     {
-        GameManager.Instance.RestartTheGame(cubeCount);
+        FusionGameManager.Instance.RestartTheGame(cubeCount);
     }
 
 

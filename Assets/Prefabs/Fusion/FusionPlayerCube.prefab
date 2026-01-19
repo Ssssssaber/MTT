@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5185808372176884574}
   - component: {fileID: 3333692144768571515}
   - component: {fileID: 770787701497160300}
-  - component: {fileID: 2063140951596543042}
+  - component: {fileID: 2130146545512646264}
   m_Layer: 0
   m_Name: FusionPlayerCube
   m_TagString: Untagged
@@ -68,8 +68,6 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -91,7 +89,6 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -124,10 +121,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146450355213639582}
-  serializedVersion: 5
+  serializedVersion: 4
   m_Mass: 5000
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -209,9 +206,9 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 5185808372176884574}
   - {fileID: 3333692144768571515}
-  - {fileID: 2063140951596543042}
+  - {fileID: 2130146545512646264}
   ForceRemoteRenderTimeframe: 0
---- !u!114 &2063140951596543042
+--- !u!114 &2130146545512646264
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,7 +219,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a591d221a634417e9827eb58e17de84, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Fusion.Addons.Physics::Fusion.Addons.Physics.NetworkRigidbody3D
+  m_EditorClassIdentifier: 
   _stateAuthorityChangeErrorCorrectionDelta: 0
   SyncScale: 0
   SyncParent: 1

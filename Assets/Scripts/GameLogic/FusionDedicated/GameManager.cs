@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class GameManager : NetworkBehaviour
+public class FusionGameManager : NetworkBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static FusionGameManager Instance { get; private set; }
     public Vector3 _gravity = new Vector3(0.0f, -9.81f, 0.0f);
     public CameraFollow _cameraFollow;
     public CubeBehaviour CurrentPlayerCube { get; private set; }
@@ -85,8 +85,6 @@ public class GameManager : NetworkBehaviour
         {
             Destroy(_objectsParent);
         }
-
-        MainLogger.instance.Info("Game Started");
 
         _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
         _objectsParent.AddComponent<NetworkObject>();
