@@ -43,7 +43,7 @@ public class AutoMover : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        if (!Object.HasInputAuthority) return;
+        if (!HasInputAuthority) return;
 
         var data = new NetworkInputData();
         data.direction = _currentDirection;

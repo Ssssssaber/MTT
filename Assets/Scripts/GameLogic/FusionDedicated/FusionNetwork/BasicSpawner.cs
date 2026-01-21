@@ -38,7 +38,6 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
 		// Start or join (depends on gamemode) a session with a specific name
 		await _runner.StartGame(startGameArgs);
-		GameManager.Instance.InvokeArgumentsReady();
     }
     private void OnGUI()
 	{
@@ -67,6 +66,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 			FusionGameManager.Instance.SetPlayerCube(networkPlayerObject.GetComponent<CubeBehaviour>());
 			// Keep track of the player avatars for easy access
 			_spawnedCharacters.Add(player, networkPlayerObject);
+			GameManager.Instance.InvokeArgumentsReady();
 		}
 	}
 
@@ -104,7 +104,12 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 	}
 	public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
 	public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
-	public void OnConnectedToServer(NetworkRunner runner) { }
+	public void OnConnectedToServer(NetworkRunner runner)
+	{
+		GameManager.Instance.InvokeArgumentsReady();
+	}
+
+	
 	public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
 	public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
 	public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }

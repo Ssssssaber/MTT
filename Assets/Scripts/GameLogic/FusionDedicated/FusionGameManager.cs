@@ -13,26 +13,38 @@ public class FusionGameManager : NetworkBehaviour
     public CubeBehaviour CurrentPlayerCube { get; private set; }
 
     [SerializeField]
-    private GameObject _miniCubePrefab;
+    private NetworkObject _miniCubePrefab;
 
     [SerializeField]
     private GameObject _box;
 
     [SerializeField]
     private GameObject _plane;
+
+    [SerializeField]
+    private NetworkObject _objectsParentPrefab;
+
+    private NetworkObject _objectsParent;
     private CallbackTimer _restartSimulationTimer;
     public static Action RecordingStopped;
-    uint CubeCount = 0;
-    
+    private uint CubeCount = 0;
     private bool _gameStarted = false;
-    private GameObject _objectsParent;
 
-	public void SetPlayerCube(CubeBehaviour cube) { CurrentPlayerCube = cube; }
+    public void SetPlayerCube(CubeBehaviour cube) { CurrentPlayerCube = cube; }
+
+    private void Awake()
+    {
+        Physics.gravity = _gravity;
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     public override void Spawned()
     {
-        if (!GameManager.Instance.Runner.IsServer) return;
-        
+        if (!Runner.IsServer) return;
+
         var initArgs = GameManager.Instance.GetCommandLineArguments();
         CubeCount = initArgs.cubeCount;
         _restartSimulationTimer = new CallbackTimer(RestartTheGame, initArgs.recordingTime, true);
@@ -41,26 +53,25 @@ public class FusionGameManager : NetworkBehaviour
 
     private void SpawnMiniCube(Vector3 position)
     {
-        var no = Runner.Spawn(
+        if (!Runner.IsServer) return;
+
+        var cube = Runner.Spawn(
             _miniCubePrefab,
             position,
             Quaternion.identity,
-            inputAuthority: null
+            inputAuthority: null,
+            (runner, networkObject) =>
+            {
+                // This callback runs on all clients after the object is spawned
+                networkObject.transform.SetParent(_objectsParent.transform);
+            }
         );
-        no.transform.SetParent(_objectsParent.transform);
-
-        RpcSetToParent(no.Id);
-    }
-
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RpcSetToParent(NetworkId cubeId)
-    {
-        Runner.TryFindObject(cubeId, out NetworkObject cube);
-        cube.transform.SetParent(_objectsParent.transform);
     }
 
     private void FillPlaneWithCubes(Vector3 offset, int width, int height, float spacing, uint maxCubes = 100)
     {
+        if (!Runner.IsServer) return;
+
         uint cubeCounter = 0;
         for (int x = 0; x < width && cubeCounter < maxCubes; x++)
         {
@@ -73,54 +84,60 @@ public class FusionGameManager : NetworkBehaviour
         }
     }
 
-    private void Awake()
-    {
-        Physics.gravity = _gravity;
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-    }
-
     public void SetCurrentPlayerCube(CubeBehaviour cube)
     {
         CurrentPlayerCube = cube;
-        _cameraFollow.SetTarget(CurrentPlayerCube.transform);
-        if (_objectsParent == null)
+        if (_cameraFollow != null && cube.HasInputAuthority)
         {
-            _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
-            _objectsParent.AddComponent<NetworkObject>();
+            _cameraFollow.SetTarget(CurrentPlayerCube.transform);
         }
     }
 
     public void RestartTheGame()
     {
-        RecordingStopped.Invoke();
+        RecordingStopped?.Invoke();
         RestartTheGame(CubeCount);
     }
 
     public void RestartTheGame(uint cubeCount = 1000)
     {
-        if (_gameStarted)
+        if (_gameStarted && _objectsParent != null)
         {
-            Destroy(_objectsParent);
+            // Despawn all mini cubes first
+            foreach (Transform child in _objectsParent.transform)
+            {
+                if (child.TryGetComponent<NetworkObject>(out var networkObject))
+                {
+                    Runner.Despawn(networkObject);
+                }
+            }
+
+            // Then despawn the parent
+            Runner.Despawn(_objectsParent);
         }
 
-        _objectsParent = Instantiate(new GameObject("ObjectsParent"), _box.transform);
-        _objectsParent.AddComponent<NetworkObject>();
+        // Spawn a new parent object
+        _objectsParent = Runner.Spawn(
+            _objectsParentPrefab,
+            _box.transform.position,
+            Quaternion.identity,
+            onBeforeSpawned: (runner, networkObject) =>
+            {
+                // This will run on the server before the object is spawned
+                networkObject.name = "ObjectsParent";
+            }
+        );
 
-        Vector3 _planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
-        Vector3 offset = new Vector3(-_planeSize.x / 2, 0, -_planeSize.z / 2);
-        FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(_planeSize.x / 2), (int)(_planeSize.z / 2), 2f, cubeCount);
+        Vector3 planeSize = _plane.GetComponent<Renderer>().bounds.size / 2;
+        Vector3 offset = new Vector3(-planeSize.x / 2, 0, -planeSize.z / 2);
+        FillPlaneWithCubes(_plane.transform.localPosition + offset, (int)(planeSize.x / 2), (int)(planeSize.z / 2), 2f, cubeCount);
 
         _gameStarted = true;
     }
 
-    // Update is called once per frame (no changes needed)
     void Update()
     {
         if (_restartSimulationTimer == null) return;
-
         _restartSimulationTimer.Update(Time.deltaTime);
     }
 }

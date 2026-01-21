@@ -1549,9 +1549,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseCommandLineArguments:
   - --server
-  - true
+  - false
   - --client
-  - true
+  - false
   - --player-auto
   - true
   - --recording-time
@@ -1654,9 +1654,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gravity: {x: 0, y: -20, z: 0}
   _cameraFollow: {fileID: 963194229}
-  _miniCubePrefab: {fileID: 4172937227661756505, guid: e091ba649a971374993d5bdc411c1f47, type: 3}
+  _miniCubePrefab: {fileID: 5199344752507470487, guid: e091ba649a971374993d5bdc411c1f47, type: 3}
   _box: {fileID: 758190301}
   _plane: {fileID: 1517287007}
+  _objectsParentPrefab: {fileID: 8140389596185810677, guid: a7e627e5257de8b479bea6df2cb96185, type: 3}
 --- !u!114 &2003198383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1822,7 +1823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5845453554250060548, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 134.70001
+      value: 134.7003
       objectReference: {fileID: 0}
     - target: {fileID: 5994995790613907733, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_SizeDelta.y
