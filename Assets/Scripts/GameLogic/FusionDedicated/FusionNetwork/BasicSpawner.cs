@@ -30,11 +30,16 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 			SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
 		};
 
-		if (address != null && port != 0)
-		{
-			startGameArgs.Address = NetAddress.CreateFromIpPort(address, port);
-			Debug.Log($"starting game with address and port {address}:{port}");
-		}
+		if (mode == GameMode.Server)
+        {
+            startGameArgs.Address = NetAddress.Any(port);
+            Debug.Log($"Starting dedicated server on port {port}");
+        }
+        else if (mode == GameMode.Client)
+        {
+            startGameArgs.Address = NetAddress.CreateFromIpPort(address, port);
+            Debug.Log($"Connecting client to {address}:{port}");
+        }
 
 		// Start or join (depends on gamemode) a session with a specific name
 		await _runner.StartGame(startGameArgs);

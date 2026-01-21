@@ -1549,7 +1549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseCommandLineArguments:
   - --server
-  - false
+  - true
   - --client
   - false
   - --player-auto
@@ -1823,7 +1823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5845453554250060548, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 134.7003
+      value: 134.70007
       objectReference: {fileID: 0}
     - target: {fileID: 5994995790613907733, guid: 512083322ae1be84eb7efe59f431d7f8, type: 3}
       propertyPath: m_SizeDelta.y

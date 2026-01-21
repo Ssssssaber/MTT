@@ -103,16 +103,6 @@ public class FusionGameManager : NetworkBehaviour
     {
         if (_gameStarted && _objectsParent != null)
         {
-            // Despawn all mini cubes first
-            foreach (Transform child in _objectsParent.transform)
-            {
-                if (child.TryGetComponent<NetworkObject>(out var networkObject))
-                {
-                    Runner.Despawn(networkObject);
-                }
-            }
-
-            // Then despawn the parent
             Runner.Despawn(_objectsParent);
         }
 
