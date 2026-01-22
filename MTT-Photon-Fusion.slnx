@@ -4,6 +4,5 @@
   <Project Path="ParrelSync.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Fusion.Addons.Physics.csproj" />
-  <Project Path="Unity.Fusion.CodeGen.csproj" />
   <Project Path="Fusion.Addons.Physics.Editor.csproj" />
 </Solution>

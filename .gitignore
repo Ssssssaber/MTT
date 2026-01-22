@@ -11,6 +11,8 @@ Recordings/
 Packages/
 NuGet/
 UserLogs/
+build-fusion-server/
+build-fusion-server*
 ### Unity ###
 # This .gitignore file should be placed at the root of your Unity project directory
 #
